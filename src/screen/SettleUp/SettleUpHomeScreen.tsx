@@ -154,6 +154,7 @@ const SettleUpHomeScreen: React.FC = () => {
         <Text
           style={{
             textAlign: 'center',
+            fontFamily: 'Lato-Regular',
 
             color: getStatus()
               ? theme['text-black-color']
