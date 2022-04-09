@@ -4,9 +4,10 @@ import {StyleSheet, View} from 'react-native';
 import Text from './Text';
 
 export type props = {
-  name: string;
+  name?: string;
+  textColor?: string;
 };
-const CustomNameIconContainer: React.FC<props> = ({name}) => {
+const CustomNameIconContainer: React.FC<props> = ({name, textColor}) => {
   const theme = useTheme();
   return (
     <View
@@ -16,7 +17,7 @@ const CustomNameIconContainer: React.FC<props> = ({name}) => {
           backgroundColor: theme['icon-primary-color-1'],
         },
       ]}>
-      <Text category="h5" style={{textAlign: 'center', color: 'green'}} bold>
+      <Text category="h2" style={{textAlign: 'center', color: textColor}}>
         {name?.split('')[0]}
       </Text>
     </View>

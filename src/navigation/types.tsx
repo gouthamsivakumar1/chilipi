@@ -7,7 +7,9 @@ export type RootStackParamList = {
     screen: keyof MainBottomStackList;
   };
   EventDetails: undefined;
-  SettleUp: undefined;
+  SettleUp: {
+    screen: keyof SettleUpStackParamList;
+  };
 };
 
 export type IntroStackParamList = {
@@ -30,6 +32,8 @@ export type EventStackParamList = {
 
 export type SettleUpStackParamList = {
   SettleUpHomeScreen: undefined;
+  ContactSettleHomeScreen: undefined;
+  SettleUpConfirmationScreen: undefined;
 };
 
 export type ProfileStackParamList = {
@@ -52,6 +56,14 @@ export type MainBottomStackList = {
 export interface EventProps {
   name?: string;
   status?: string;
+  amount?: number;
+  id?: number;
+}
+
+export interface ContactSettleListProps {
+  name?: string;
+  status?: string;
+  email?: string;
   amount?: number;
   id?: number;
 }

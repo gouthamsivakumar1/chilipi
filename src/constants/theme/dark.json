@@ -6,16 +6,25 @@
   "background-basic-color-5": "$color-primary-500s",
   "background-basic-color-6": "$color-basic-500",
   "background-basic-color-7": "$color-basic-800",
+  "background-basic-color-8": "$color-primary-1000",
+  "background-white-color": "$color-basic-100",
+
   "text-basic-color": "$color-basic-400",
   "text-body-color": "$color-basic-600",
   "text-white-color": "$color-basic-100",
   "text-black-color": "$color-basic-1100",
+  "text-red-color": "$color-red-primary",
+  "text-ash-color": "$colr-ash-primary",
+  "text-ash-color-1": "$color-ash-primary-2",
+
   "text-note-color": "$color-basic-700",
   "icon-basic-color": "$color-basic-600",
   "border-basic-color": "$color-basic-500",
 
   "icon-primary-color": "$color-basic-1000",
-  "icon-primary-color-1": "$color-ash-700",
+  "icon-primary-color-1": "$color-ash-primary",
+  "border-primary-color": "$color-ash-primary",
+
   "icon-face-id-color": "$color-basic-1000",
   "button-background-disable-color": "$color-basic-800",
   "button-text-disable-color": "$color-basic-1700",

@@ -16,7 +16,7 @@ export interface MyTextProps extends TextProps {
     | 'p2'
     | 's1'
     | 's2';
-
+  fontFamily?: 'Lato-Light' | 'Lato-Bold' | 'Lato-Regular';
   status?: EvaStatus | 'body' | 'white' | 'black' | 'note';
   children?: any;
   marginLeft?: number;
@@ -87,6 +87,7 @@ export default memo(
     underline,
     bold,
     italic,
+    fontFamily = 'Lato-Bold',
     category = 'h6',
     status,
     children,
@@ -157,6 +158,7 @@ export default memo(
             opacity: opacity,
             textAlign: textAlign,
             maxWidth: maxWidth,
+            fontFamily: 'Lato-Re',
             lineHeight: getLineHeight(category),
             textTransform: textTransform,
             textDecorationLine: textDecorationLine,

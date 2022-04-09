@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Icon, Layout, useTheme} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Image, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
@@ -6,6 +6,7 @@ import CustomNameIconContainer from '../../components/CustomNameIconContainer';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
+import {SettleUpStackParamList} from '../../navigation/types';
 
 const Data = [
   {
@@ -31,12 +32,17 @@ const Data = [
 ];
 
 const SettleUpHomeScreen: React.FC = () => {
-  const {goBack} = useNavigation();
+  const {goBack, navigate} =
+    useNavigation<NavigationProp<SettleUpStackParamList>>();
   const theme = useTheme();
   const {width} = useLayout();
   const [paymentMethod, setPaymentMethodState] = useState<string>();
 
   const onBack = () => goBack();
+
+  const onNavigate = () => {
+    navigate('SettleUpConfirmationScreen');
+  };
 
   const getStatus = () => {
     return paymentMethod == undefined ? true : false;
@@ -45,7 +51,7 @@ const SettleUpHomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBarContainer}>
-        <TouchableThrottle style={{flex: 0.5}} onPress={onBack}>
+        <TouchableThrottle onPress={onBack}>
           <Icon
             name="arrow-ios-back"
             fill={theme['text-input-color-1']}
@@ -54,24 +60,26 @@ const SettleUpHomeScreen: React.FC = () => {
         </TouchableThrottle>
         <Text
           style={[styles.topLabel, {color: theme['text-input-color-1']}]}
-          category="h5"
-          bold>
+          category="h5">
           Settle Up
         </Text>
       </View>
       <ScrollView style={{paddingHorizontal: 50}}>
         <Text
-          category="p1"
           style={[
             styles.oweContainer,
             {
               color: theme['text-basic-color-1'],
             },
           ]}>
-          You owe Stuart Little <Text style={{color: 'red'}}>$500.</Text>
+          You owe Stuart Little{' '}
+          <Text style={{color: theme['text-red-color']}}>$500.</Text>
         </Text>
         <View style={styles.nameContainer}>
-          <CustomNameIconContainer name="S" />
+          <CustomNameIconContainer
+            name="M"
+            textColor={theme['background-basic-color-8']}
+          />
 
           <Icon
             name="arrow-forward-outline"
@@ -79,21 +87,26 @@ const SettleUpHomeScreen: React.FC = () => {
             style={{
               height: 60,
               width: 60,
+              paddingHorizontal: 50,
             }}
           />
-          <CustomNameIconContainer name="S" />
+          <CustomNameIconContainer
+            name="S"
+            textColor={theme['text-red-color']}
+          />
         </View>
         <Text
           category="p1"
           style={[
             styles.oweContainer,
             {
-              marginTop: 50,
+              marginTop: 24,
               color: theme['text-basic-color-1'],
             },
           ]}>
           Choose a payment Method
         </Text>
+        <View style={{margin: 10}} />
         {Data.map(element => {
           return (
             <TouchableThrottle
@@ -103,17 +116,29 @@ const SettleUpHomeScreen: React.FC = () => {
                   styles.paymentMethodContainer,
                   {
                     backgroundColor: theme['text-white-color'],
-                    borderColor: theme['border-basic-color'],
+                    borderColor: theme['icon-primary-color-1'],
                   },
                 ]}>
                 <View>
                   <View
                     style={[
                       styles.rbStyle,
-                      {borderColor: theme['icon-primary-color-1']},
+                      {
+                        borderColor:
+                          paymentMethod === element.name
+                            ? theme['background-basic-color-8']
+                            : theme['icon-primary-color-1'],
+                      },
                     ]}>
                     {paymentMethod === element.name && (
-                      <View style={styles.selected} />
+                      <View
+                        style={[
+                          styles.selected,
+                          {
+                            backgroundColor: theme['background-basic-color-8'],
+                          },
+                        ]}
+                      />
                     )}
                   </View>
                 </View>
@@ -139,31 +164,31 @@ const SettleUpHomeScreen: React.FC = () => {
           );
         })}
       </ScrollView>
+      <TouchableThrottle disabled={getStatus()} onPress={onNavigate}>
+        <Layout
+          style={[
+            styles.settleUpBtn,
+            {
+              backgroundColor: getStatus()
+                ? theme['text-white-color']
+                : theme['background-basic-color-1'],
+              borderColor: theme['border-basic-color'],
+              width: width * 0.7,
+            },
+          ]}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'Lato-Regular',
 
-      <Layout
-        style={[
-          styles.settleUpBtn,
-          {
-            backgroundColor: getStatus()
-              ? theme['text-white-color']
-              : theme['background-basic-color-1'],
-            borderColor: theme['border-basic-color'],
-            width: width * 0.7,
-          },
-        ]}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontFamily: 'Lato-Regular',
-
-            color: getStatus()
-              ? theme['text-black-color']
-              : theme['text-white-color'],
-          }}
-          bold>
-          Settle Up
-        </Text>
-      </Layout>
+              color: getStatus()
+                ? theme['text-ash-color']
+                : theme['text-white-color'],
+            }}>
+            Settle Up
+          </Text>
+        </Layout>
+      </TouchableThrottle>
     </SafeAreaView>
   );
 };
@@ -176,15 +201,13 @@ const styles = StyleSheet.create({
   topBarContainer: {
     flexDirection: 'row',
     marginTop: 10,
-    justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   topBarIcon: {
     height: 40,
     width: 40,
-    flex: 1,
   },
-  topLabel: {flex: 1, marginLeft: 24},
+  topLabel: {marginLeft: 24},
   oweContainer: {
     marginTop: 20,
     textAlign: 'center',
@@ -208,10 +231,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   selected: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'green',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   settleUpBtn: {
     alignSelf: 'center',

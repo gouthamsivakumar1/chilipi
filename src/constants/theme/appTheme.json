@@ -8,6 +8,8 @@
   "color-primary-700": "#268D44",
   "color-primary-800": "#18723A",
   "color-primary-900": "#0E5E34",
+  "color-primary-1000": "#4CBB9B",
+
   "color-success-100": "#D3FCD6",
   "color-success-200": "#A7FAB7",
   "color-success-300": "#7AF19B",
@@ -17,6 +19,7 @@
   "color-success-700": "#12966C",
   "color-success-800": "#0B7961",
   "color-success-900": "#076459",
+
   "color-info-100": "#D4EDFD",
   "color-info-200": "#ABD8FB",
   "color-info-300": "#7FBBF3",
@@ -44,5 +47,8 @@
   "color-danger-700": "#B73B5F",
   "color-danger-800": "#93254F",
   "color-danger-900": "#7A1645",
-  "color-ash-700": "#DEDEDE"
+  "color-ash-primary": "#DEDEDE",
+  "color-ash-primary-2": "#616161",
+
+  "color-red-primary": "#E70202"
 }
