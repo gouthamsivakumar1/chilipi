@@ -1,7 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {useTheme, Icon} from '@ui-kitten/components';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
@@ -57,7 +57,9 @@ const EventDetails: React.FC = () => {
     goBack();
   };
   const settleUpNav = () => {
-    navigate('SettleUp');
+    navigate('SettleUp', {
+      screen: 'SettleUpHomeScreen',
+    });
   };
 
   return (
@@ -89,11 +91,11 @@ const EventDetails: React.FC = () => {
             <Text
               category="h1"
               style={{
-                color: 'red',
+                marginTop: 3,
+                color: theme['text-red-color'],
                 textAlignVertical: 'center',
                 textAlign: 'center',
-              }}
-              bold>
+              }}>
               S
             </Text>
           </View>
@@ -101,18 +103,22 @@ const EventDetails: React.FC = () => {
 
         <View style={styles.detailsContainer}>
           <View style={{alignSelf: 'center'}}>
-            <Text bold>Staurt Little</Text>
+            <Text category="p1" style={{color: theme['text-white-color']}}>
+              Staurt Little
+            </Text>
             <Text
-              category="p1"
-              style={{paddingHorizontal: 10, marginVertical: 5}}>
-              you won
+              category="p2"
+              style={{color: theme['text-white-color'], marginVertical: 10}}>
+              You owe
             </Text>
           </View>
           <View style={styles.dollarContainer}>
-            <Text category="p1" style={{paddingHorizontal: 5}}>
+            <Text
+              category="p1"
+              style={{paddingHorizontal: 5, color: theme['text-white-color']}}>
               $
             </Text>
-            <Text category="h4" bold>
+            <Text category="h4" style={{color: theme['text-white-color']}}>
               500
             </Text>
           </View>
@@ -166,9 +172,8 @@ const EventDetails: React.FC = () => {
           styles.floatingButton,
           {backgroundColor: theme['background-basic-color-1']},
         ]}>
-        <Icon
-          name="plus"
-          fill="#fff"
+        <Image
+          source={require('../../assets/icon/plus.png')}
           style={[
             styles.topBarsIcon,
             {backgroundColor: theme['background-basic-color-1']},
@@ -182,7 +187,7 @@ const EventDetails: React.FC = () => {
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
   label: {textAlign: 'center', marginTop: 5, color: '#fff'},
-  topBarIcon: {width: 30, height: 30},
+  topBarIcon: {width: 40, height: 40},
   topBarsIcon: {
     width: 40,
     height: 40,
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
   },
 
   topViewContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -220,14 +225,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,
     marginTop: 10,
   },
   detailsContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 35,
+    marginTop: 5,
   },
   floatingButton: {
     width: 60,

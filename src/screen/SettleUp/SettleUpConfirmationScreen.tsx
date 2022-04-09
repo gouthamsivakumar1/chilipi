@@ -1,17 +1,35 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+
+import {
+  useNavigation,
+  NavigationProp,
+  CommonActions,
+} from '@react-navigation/native';
 import {Icon, Layout, useTheme} from '@ui-kitten/components';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
+import {RootStackParamList} from '../../navigation/types';
 
 const SettleUpConfirmationScreen: React.FC = () => {
   const theme = useTheme();
-  const {goBack} = useNavigation();
+  const {goBack, navigate, dispatch} =
+    useNavigation<NavigationProp<RootStackParamList>>();
   const {width} = useLayout();
 
   const onBack = () => goBack();
+  const nextScreen = React.useCallback(() => {
+    const resetAction = CommonActions.reset({
+      index: 1,
+      routes: [
+        {
+          name: 'Main',
+        },
+      ],
+    });
+    dispatch(resetAction);
+  }, []);
   return (
     <SafeAreaView
       style={[
@@ -60,26 +78,27 @@ const SettleUpConfirmationScreen: React.FC = () => {
           </Text>{' '}
           {'\n'} has been settled up
         </Text>
-
-        <Layout
-          style={[
-            styles.settleUpBtn,
-            {
-              backgroundColor: theme['background-basic-color-1'],
-              borderColor: theme['border-basic-color'],
-              width: width * 0.7,
-            },
-          ]}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontFamily: 'Lato-Regular',
-
-              color: theme['text-white-color'],
-            }}>
-            Done
-          </Text>
-        </Layout>
+        <TouchableThrottle onPress={nextScreen}>
+          <Layout
+            style={[
+              styles.settleUpBtn,
+              {
+                backgroundColor: theme['background-basic-color-1'],
+                borderColor: theme['border-basic-color'],
+                width: width * 0.7,
+              },
+            ]}>
+            <Text
+              style={[
+                styles.doneLabel,
+                {
+                  color: theme['text-white-color'],
+                },
+              ]}>
+              Done
+            </Text>
+          </Layout>
+        </TouchableThrottle>
       </View>
     </SafeAreaView>
   );
@@ -118,6 +137,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
+  },
+  doneLabel: {
+    textAlign: 'center',
+    fontFamily: 'Lato-Regular',
   },
 });
 

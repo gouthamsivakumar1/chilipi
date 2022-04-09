@@ -1,10 +1,11 @@
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {useTheme, Icon} from '@ui-kitten/components';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
+import {RootStackParamList} from '../../navigation/types';
 import ContactDetailsListItemComponent from './ContactDetailsListItem';
 
 const data = [
@@ -26,19 +27,41 @@ const data = [
     date: 'November 3,2018',
     amount: 500,
   },
-  {name: 'Stuart Little', status: 'you won', amount: 600},
-  {name: 'Stuart Little', status: 'you won', amount: 600},
-  {name: 'Stuart Little', status: 'you won', amount: 600},
+  {
+    name: 'Food',
+    status: 'Added by Stephen',
+    date: 'November 3,2018',
+    amount: 500,
+  },
+  {
+    name: 'Food',
+    status: 'Added by Stephen',
+    date: 'November 3,2018',
+    amount: 500,
+  },
+  {
+    name: 'Food',
+    status: 'Added by Stephen',
+    date: 'November 3,2018',
+    amount: 500,
+  },
 ];
 
 const ContactDetails: React.FC = () => {
   const theme = useTheme();
   const {width} = useLayout();
-  const {goBack} = useNavigation();
+  const {navigate, goBack} =
+    useNavigation<NavigationProp<RootStackParamList>>();
 
   const onBack = () => {
     goBack();
   };
+  const settleUpNav = () => {
+    navigate('SettleUp', {
+      screen: 'ContactSettleHomeScreen',
+    });
+  };
+
   return (
     <SafeAreaView style={[styles.container]}>
       <View
@@ -68,11 +91,11 @@ const ContactDetails: React.FC = () => {
             <Text
               category="h1"
               style={{
-                color: 'red',
+                marginTop: 3,
+                color: theme['text-red-color'],
                 textAlignVertical: 'center',
                 textAlign: 'center',
-              }}
-              bold>
+              }}>
               S
             </Text>
           </View>
@@ -80,23 +103,28 @@ const ContactDetails: React.FC = () => {
 
         <View style={styles.detailsContainer}>
           <View style={{alignSelf: 'center'}}>
+            <Text category="p1" style={{color: theme['text-white-color']}}>
+              Staurt Little
+            </Text>
             <Text
-              category="p1"
-              style={{paddingHorizontal: 10, marginVertical: 5}}>
-              you won <Text bold>Staurt Little</Text>
+              category="p2"
+              style={{color: theme['text-white-color'], marginVertical: 10}}>
+              You owe
             </Text>
           </View>
           <View style={styles.dollarContainer}>
-            <Text category="p1" style={{paddingHorizontal: 5}}>
+            <Text
+              category="p1"
+              style={{paddingHorizontal: 5, color: theme['text-white-color']}}>
               $
             </Text>
-            <Text category="h4" bold>
+            <Text category="h4" style={{color: theme['text-white-color']}}>
               500
             </Text>
           </View>
         </View>
         <View style={styles.settleUpBtnContainer}>
-          <TouchableThrottle onPress={() => null}>
+          <TouchableThrottle onPress={settleUpNav}>
             <Text
               category="p1"
               style={[
@@ -118,7 +146,7 @@ const ContactDetails: React.FC = () => {
                   backgroundColor: theme['background-basic-color-3'],
                 },
               ]}>
-              Balances
+              Send Reminder
             </Text>
           </TouchableThrottle>
         </View>
@@ -144,9 +172,8 @@ const ContactDetails: React.FC = () => {
           styles.floatingButton,
           {backgroundColor: theme['background-basic-color-1']},
         ]}>
-        <Icon
-          name="plus"
-          fill="#fff"
+        <Image
+          source={require('../../assets/icon/plus.png')}
           style={[
             styles.topBarsIcon,
             {backgroundColor: theme['background-basic-color-1']},
@@ -160,7 +187,7 @@ const ContactDetails: React.FC = () => {
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
   label: {textAlign: 'center', marginTop: 5, color: '#fff'},
-  topBarIcon: {width: 30, height: 30},
+  topBarIcon: {width: 40, height: 40},
   topBarsIcon: {
     width: 40,
     height: 40,
@@ -171,7 +198,7 @@ const styles = StyleSheet.create({
   },
 
   topViewContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -198,14 +225,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,
     marginTop: 10,
   },
   detailsContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 35,
+    marginTop: 5,
   },
   floatingButton: {
     width: 60,

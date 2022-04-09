@@ -8,6 +8,7 @@ import TouchableThrottle from '../../components/touchableThrottle';
 import {
   ContactSettleListProps,
   RootStackParamList,
+  SettleUpStackParamList,
 } from '../../navigation/types';
 
 interface RenderItemProps {
@@ -21,10 +22,10 @@ const ContactSettleListItemComponent: React.FC<RenderItemProps> = ({
   index,
 }) => {
   const theme = useTheme();
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
+  const {navigate} = useNavigation<NavigationProp<SettleUpStackParamList>>();
 
   const navgateToDetails = () => {
-    navigate('EventDetails');
+    navigate('SettleUpHomeScreen');
   };
 
   return (

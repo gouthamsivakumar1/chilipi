@@ -1,6 +1,6 @@
 import {Icon, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import useLayout from '../../hooks/useLayout';
 import EventListItemComponent from './TransactionListItem';
@@ -27,7 +27,7 @@ const TransactionListComponent: React.FC = () => {
       ]}>
       <View style={[styles.topBarContainer]}>
         <View></View>
-        <Text style={styles.label} category="h4" bold>
+        <Text style={styles.label} category="h3" bold>
           Chilipi
         </Text>
         <View
@@ -36,7 +36,10 @@ const TransactionListComponent: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Icon name="search" fill="#fff" style={styles.topBarIcon} />
+          <Image
+            source={require('../../assets/icon/search_icon.png')}
+            style={{height: 25, width: 25}}
+          />
           <Icon
             name="more-vertical-outline"
             fill="#fff"
@@ -55,15 +58,13 @@ const TransactionListComponent: React.FC = () => {
         ]}>
         <View style={{paddingHorizontal: 20, marginTop: 30}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{color: '#616161'}}>
-              Overall Expense
-              <Text style={{color: 'red'}} bold>
-                {`\t`} $100
-              </Text>
+            <Text style={{color: theme['text-ash-color-1']}}>
+              Overall ,you owe
+              <Text style={{color: theme['text-red-color']}}>{`\t`} $100</Text>
             </Text>
             <Icon
               name="options-2-outline"
-              fill={theme['icon-basic-color']}
+              fill={theme['color-ash-primary-2']}
               style={{height: 25, width: 25}}></Icon>
           </View>
 

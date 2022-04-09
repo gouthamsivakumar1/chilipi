@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View, SafeAreaView, Image} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import ContactNavigator from '../../navigation/ContactNavigator';
@@ -17,7 +17,7 @@ const CustomTabButton = ({children, onPress}: any) => {
   return (
     <TouchableThrottle
       style={{
-        top: -30,
+        top: -10,
         justifyContent: 'center',
         alignItems: 'center',
         ...style.shadow,
@@ -65,7 +65,7 @@ const Tabs = () => {
                 fill={
                   focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color']
+                    : theme['icon-primary-color-2']
                 }
                 style={style.tabIcon}
               />
@@ -74,7 +74,7 @@ const Tabs = () => {
                 style={{
                   color: focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color'],
+                    : theme['icon-primary-color-2'],
                 }}>
                 Events
               </Text>
@@ -90,11 +90,11 @@ const Tabs = () => {
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>
               <Icon
-                name="smartphone"
+                name="person"
                 fill={
                   focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color']
+                    : theme['icon-primary-color-2']
                 }
                 style={style.tabIcon}
               />
@@ -118,7 +118,10 @@ const Tabs = () => {
         options={{
           tabBarButton: props => <CustomTabButton {...props} />,
           tabBarIcon: () => (
-            <Icon name="plus" fill="#fff" style={style.addTabIcon} />
+            <Image
+              source={require('../../assets/icon/plus.png')}
+              style={style.addTabIcon}
+            />
           ),
         }}></Tab.Screen>
       <Tab.Screen
@@ -132,7 +135,7 @@ const Tabs = () => {
                 fill={
                   focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color']
+                    : theme['icon-primary-color-2']
                 }
                 style={style.tabIcon}
               />
@@ -142,7 +145,7 @@ const Tabs = () => {
                 style={{
                   color: focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color'],
+                    : theme['icon-primary-color-2'],
                 }}>
                 Transactions
               </Text>
@@ -161,7 +164,7 @@ const Tabs = () => {
                 fill={
                   focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color']
+                    : theme['icon-primary-color-2']
                 }
                 style={style.tabIcon}
               />
@@ -170,7 +173,7 @@ const Tabs = () => {
                 style={{
                   color: focused
                     ? theme['background-basic-color-2']
-                    : theme['icon-basic-color'],
+                    : theme['icon-primary-color-2'],
                 }}>
                 Accounts
               </Text>

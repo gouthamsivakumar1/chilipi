@@ -1,6 +1,6 @@
 import {Icon, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, View, Image} from 'react-native';
 import Text from '../../components/Text';
 import useLayout from '../../hooks/useLayout';
 import ContactListItemComponent from './ContactListItem';
@@ -23,24 +23,24 @@ const ContactListComponent: React.FC = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignSelf: 'center',
-          borderColor: theme['background-basic-color-2'],
+          borderColor: theme['background-basic-color-1'],
           borderWidth: 1,
           padding: 5,
           borderRadius: 8,
         }}>
         <Icon
           name="person-add"
-          fill={theme['flatlist-footer-icon']}
+          fill={theme['background-basic-color-1']}
           style={styles.topBarIcon}
         />
         <Text
           category="p1"
           style={{
             textAlignVertical: 'center',
-            color: theme['flatlist-footer-icon'],
+            color: theme['background-basic-color-1'],
           }}
           bold>
-          Start a new event
+          Add more contacts
         </Text>
       </View>
     );
@@ -54,7 +54,7 @@ const ContactListComponent: React.FC = () => {
       ]}>
       <View style={[styles.topBarContainer]}>
         <View></View>
-        <Text style={styles.label} category="h4" bold>
+        <Text style={styles.label} category="h3" bold>
           Chilipi
         </Text>
         <View
@@ -63,7 +63,10 @@ const ContactListComponent: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Icon name="search" fill="#fff" style={styles.topBarIcon} />
+          <Image
+            source={require('../../assets/icon/search_icon.png')}
+            style={{height: 25, width: 25}}
+          />
           <Icon
             name="more-vertical-outline"
             fill="#fff"
@@ -82,15 +85,13 @@ const ContactListComponent: React.FC = () => {
         ]}>
         <View style={{paddingHorizontal: 20, marginTop: 30}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{color: '#616161'}}>
+            <Text style={{color: theme['text-ash-color-1']}}>
               Overall Expense
-              <Text style={{color: 'red'}} bold>
-                {`\t`} $500
-              </Text>
+              <Text style={{color: theme['text-red-color']}}>{`\t`}$100</Text>
             </Text>
             <Icon
               name="options-2-outline"
-              fill={theme['icon-basic-color']}
+              fill={theme['color-ash-primary-2']}
               style={{height: 25, width: 25}}></Icon>
           </View>
 

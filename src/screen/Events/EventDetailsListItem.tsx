@@ -1,7 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Card, Layout, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import {EventDetailsProps, EventStackParamList} from '../../navigation/types';
@@ -39,30 +39,18 @@ const EventDetailsListItemComponent: React.FC<RenderItemProps> = ({
             alignItems: 'center',
           }}>
           <View style={{flexWrap: 'wrap', flexDirection: 'column'}}>
-            <View
-              style={{
-                width: 50,
-                backgroundColor: 'white',
-                borderWidth: 2,
-                padding: 10,
-                borderRadius: 25,
-                borderColor: index % 2 == 0 ? 'red' : 'green',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: index % 2 == 0 ? 'red' : 'green',
-                }}>
-                {item?.name?.split('')[0]}
-              </Text>
-            </View>
             <View style={{flexDirection: 'column', paddingHorizontal: 10}}>
-              <Text style={{color: theme['text-black-color'], marginTop: 10}}>
+              <Image source={require('../../assets/icon/hotel.png')} />
+
+              <Text
+                category="p1"
+                style={{color: theme['text-ash-color'], marginTop: 10}}
+                bold>
                 {item?.name}
               </Text>
               <Text
-                category="p1"
-                style={{color: theme['text-black-color-1'], marginTop: 10}}>
+                category="p2"
+                style={{color: theme['text-ash-color-1'], marginTop: 10}}>
                 {item?.status}
               </Text>
             </View>
@@ -72,13 +60,14 @@ const EventDetailsListItemComponent: React.FC<RenderItemProps> = ({
             style={{justifyContent: 'space-between', alignSelf: 'flex-end'}}>
             <Text
               category="p2"
-              style={{color: theme['text-black-color-1'], flex: 1}}>
+              style={{color: theme['text-ash-color-1'], flex: 1}}>
               {item?.date}
             </Text>
             <View style={{flex: 1, alignSelf: 'flex-end'}}>
               <Text
+                category="p2"
                 style={{
-                  color: theme['text-black-color-1'],
+                  color: theme['text-ash-color-1'],
                   marginVertical: 10,
                 }}>
                 you owe

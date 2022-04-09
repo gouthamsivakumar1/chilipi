@@ -1,6 +1,7 @@
 import {Card, Layout, useTheme} from '@ui-kitten/components';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import CustomNameIconContainer from '../../components/CustomNameIconContainer';
 import Text from '../../components/Text';
 import {EventProps} from '../../navigation/types';
 
@@ -31,31 +32,30 @@ const EventListItemComponent: React.FC<RenderItemProps> = ({
           justifyContent: 'flex-start',
           alignItems: 'center',
         }}>
+        <CustomNameIconContainer
+          textColor={
+            index % 2 == 0
+              ? theme['text-red-color']
+              : theme['background-basic-color-8']
+          }
+          name={item?.name}
+        />
         <View
           style={{
-            width: 50,
-            backgroundColor: 'white',
-            borderWidth: 2,
-            padding: 10,
-            borderRadius: 25,
-            borderColor: index % 2 == 0 ? 'red' : 'green',
+            flexDirection: 'column',
+            paddingHorizontal: 10,
+            marginTop: 5,
+            flex: 1,
           }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              color: index % 2 == 0 ? 'red' : 'green',
-            }}>
-            {item?.name?.split('')[0]}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'column', paddingHorizontal: 10, flex: 1}}>
-          <Text
-            category="h6"
-            numberOfLines={3}
-            style={{color: theme['text-black-color']}}>
+          <Text category="p1" style={{color: theme['text-ash-color-1']}}>
             {item?.name}
           </Text>
-          <Text category="p1" style={{color: theme['text-basic-color-1']}}>
+          <Text
+            category="p2"
+            style={{
+              marginTop: 10,
+              color: theme['text-ash-color-1'],
+            }}>
             {item?.status}
           </Text>
         </View>

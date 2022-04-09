@@ -4,11 +4,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
-import {
-  EventProps,
-  EventStackParamList,
-  RootStackParamList,
-} from '../../navigation/types';
+import {EventProps, RootStackParamList} from '../../navigation/types';
 
 interface RenderItemProps {
   item?: EventProps;
@@ -49,32 +45,52 @@ const EventListItemComponent: React.FC<RenderItemProps> = ({
                 width: 50,
                 backgroundColor: 'white',
                 borderWidth: 2,
-                padding: 10,
                 borderRadius: 25,
-                borderColor: index % 2 == 0 ? 'red' : 'green',
+                borderColor:
+                  index % 2 == 0
+                    ? theme['text-red-color']
+                    : theme['background-basic-color-8'],
               }}>
               <Text
+                category="h3"
                 style={{
                   textAlign: 'center',
-                  color: index % 2 == 0 ? 'red' : 'green',
+                  color:
+                    index % 2 == 0
+                      ? theme['text-red-color']
+                      : theme['background-basic-color-8'],
                 }}>
                 {item?.name?.split('')[0]}
               </Text>
             </View>
-            <View style={{flexDirection: 'column', paddingHorizontal: 10}}>
-              <Text style={{color: theme['text-black-color']}}>
+            <View
+              style={{
+                flexDirection: 'column',
+                paddingHorizontal: 10,
+                marginTop: 5,
+              }}>
+              <Text category="p1" style={{color: theme['text-ash-color-1']}}>
                 {item?.name}
               </Text>
-              <Text category="p1" style={{color: theme['text-black-color']}}>
+              <Text
+                category="p2"
+                style={{
+                  marginTop: 10,
+                  color: theme['text-ash-color-1'],
+                }}>
                 {item?.status}
               </Text>
             </View>
           </View>
 
-          <View>
-            <Text category="p1" style={{color: theme['text-black-color']}}>
+          <View style={{alignSelf: 'flex-end'}}>
+            <Text category="p2" style={{color: theme['text-ash-color-1']}}>
               ${' '}
-              <Text category="h4" style={{color: theme['text-black-color']}}>
+              <Text
+                category="h4"
+                style={{
+                  color: theme['text-ash-color-1'],
+                }}>
                 {item?.amount}
               </Text>
             </Text>

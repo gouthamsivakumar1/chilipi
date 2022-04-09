@@ -23,6 +23,8 @@
 
   "icon-primary-color": "$color-basic-1000",
   "icon-primary-color-1": "$color-ash-primary",
+  "icon-primary-color-2": "$color-ash-primary-2",
+
   "border-primary-color": "$color-ash-primary",
 
   "icon-face-id-color": "$color-basic-1000",
