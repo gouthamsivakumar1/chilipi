@@ -1,10 +1,10 @@
 import Svg, {Path} from 'react-native-svg';
 
-import React, {memo, useEffect} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView, LogBox} from 'react-native';
+import React, {memo} from 'react';
+import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import useLayout from '../../hooks/useLayout';
 import Text from '../../components/Text';
-import {Avatar} from '@ui-kitten/components';
+import {Avatar, useTheme} from '@ui-kitten/components';
 import {AuthButton, AuthInput} from '../../components/authInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +13,6 @@ import {
   CommonActions,
   NavigationProp,
   useNavigation,
-  useTheme,
 } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -161,7 +160,7 @@ const Login = memo(() => {
                         source={require('../../assets/icon/google.png')}
                         style={{
                           marginRight: 20,
-                          backgroundColor: theme['backgorund-white-color'],
+                          backgroundColor: theme['background-white-color'],
                         }}
                         shape="square"
                       />
