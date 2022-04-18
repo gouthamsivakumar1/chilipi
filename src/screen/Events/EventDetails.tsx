@@ -2,6 +2,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {useTheme, Icon} from '@ui-kitten/components';
 import React from 'react';
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import CustomHeader from '../../components/Header';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
@@ -58,7 +59,7 @@ const EventDetails: React.FC = () => {
   };
   const settleUpNav = () => {
     navigate('SettleUp', {
-      screen: 'SettleUpHomeScreen',
+      screen: 'EventSettleUpHomeScreen',
     });
   };
 
@@ -72,20 +73,12 @@ const EventDetails: React.FC = () => {
           borderBottomRightRadius: width * 0.1,
           borderBottomLeftRadius: width * 0.1,
         }}>
-        <View style={styles.topViewContainer}>
-          <TouchableThrottle onPress={onBack}>
-            <Icon name="arrow-ios-back" fill="#fff" style={styles.topBarIcon} />
-          </TouchableThrottle>
-          <Text style={styles.label} category="h4" bold>
-            Chilipi
-          </Text>
+        <CustomHeader
+          labelStyle={{marginRight: 25}}
+          backButtonEnabled={true}
+          onBackPress={onBack}
+        />
 
-          <Icon
-            name="more-vertical-outline"
-            fill="#fff"
-            style={styles.topBarIcon}
-          />
-        </View>
         <View style={{flex: 1}}>
           <View style={styles.labelInitialContainer}>
             <Text

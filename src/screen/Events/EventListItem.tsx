@@ -1,13 +1,19 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Layout, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
-import {EventProps, RootStackParamList} from '../../navigation/types';
+import {
+  ContactProps,
+  ContactStackParamList,
+  EventProps,
+  EventStackParamList,
+  RootStackParamList,
+} from '../../navigation/types';
 
 interface RenderItemProps {
-  item?: EventProps;
+  item?: ContactProps;
   onPress?(): void;
   index: number;
 }
@@ -43,6 +49,7 @@ const EventListItemComponent: React.FC<RenderItemProps> = ({
             <View
               style={{
                 width: 50,
+                height: 50,
                 backgroundColor: 'white',
                 borderWidth: 2,
                 borderRadius: 25,
@@ -51,17 +58,14 @@ const EventListItemComponent: React.FC<RenderItemProps> = ({
                     ? theme['text-red-color']
                     : theme['background-basic-color-8'],
               }}>
-              <Text
-                category="h3"
+              <Image
                 style={{
-                  textAlign: 'center',
-                  color:
-                    index % 2 == 0
-                      ? theme['text-red-color']
-                      : theme['background-basic-color-8'],
-                }}>
-                {item?.name?.split('')[0]}
-              </Text>
+                  top: 10,
+                  bottom: 10,
+                  alignSelf: 'center',
+                }}
+                source={require('../../assets/icon/mountain.png')}
+              />
             </View>
             <View
               style={{
@@ -70,7 +74,7 @@ const EventListItemComponent: React.FC<RenderItemProps> = ({
                 marginTop: 5,
               }}>
               <Text category="p1" style={{color: theme['text-ash-color-1']}}>
-                {item?.name}
+                {item?.title}
               </Text>
               <Text
                 category="p2"

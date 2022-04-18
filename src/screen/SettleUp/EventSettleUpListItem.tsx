@@ -16,7 +16,7 @@ interface RenderItemProps {
   onPress?(): void;
   index: number;
 }
-const ContactSettleListItemComponent: React.FC<RenderItemProps> = ({
+const EventSettleListItemComponent: React.FC<RenderItemProps> = ({
   item,
   onPress,
   index,
@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactSettleListItemComponent;
+export default EventSettleListItemComponent;

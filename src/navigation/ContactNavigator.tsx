@@ -13,7 +13,6 @@ const ContactNavigator = memo(() => {
       screenOptions={{headerShown: false}}
       initialRouteName="ContactList">
       <Stack.Screen name="ContactList" component={ContactListComponent} />
-      <Stack.Screen name="ContactDetails" component={ContactDetails} />
     </Stack.Navigator>
   );
 });

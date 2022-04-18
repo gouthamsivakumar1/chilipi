@@ -4,15 +4,10 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
-import {
-  ContactProps,
-  ContactStackParamList,
-  EventProps,
-  RootStackParamList,
-} from '../../navigation/types';
+import {EventProps, RootStackParamList} from '../../navigation/types';
 
 interface RenderItemProps {
-  item?: ContactProps;
+  item?: EventProps;
   onPress?(): void;
   index: number;
 }
@@ -22,7 +17,7 @@ const ContactListItemComponent: React.FC<RenderItemProps> = ({
   index,
 }) => {
   const theme = useTheme();
-  const {navigate} = useNavigation<NavigationProp<ContactStackParamList>>();
+  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
 
   const navgateToDetails = () => {
     navigate('ContactDetails');
@@ -51,15 +46,21 @@ const ContactListItemComponent: React.FC<RenderItemProps> = ({
                 backgroundColor: 'white',
                 borderWidth: 2,
                 borderRadius: 25,
-                borderColor: index % 2 == 0 ? 'red' : 'green',
+                borderColor:
+                  index % 2 == 0
+                    ? theme['text-red-color']
+                    : theme['background-basic-color-8'],
               }}>
               <Text
                 category="h3"
                 style={{
                   textAlign: 'center',
-                  color: index % 2 == 0 ? 'red' : 'green',
+                  color:
+                    index % 2 == 0
+                      ? theme['text-red-color']
+                      : theme['background-basic-color-8'],
                 }}>
-                {item?.title?.split('')[0]}
+                {item?.name?.split('')[0]}
               </Text>
             </View>
             <View
@@ -69,7 +70,7 @@ const ContactListItemComponent: React.FC<RenderItemProps> = ({
                 marginTop: 5,
               }}>
               <Text category="p1" style={{color: theme['text-ash-color-1']}}>
-                {item?.title}
+                {item?.name}
               </Text>
               <Text
                 category="p2"

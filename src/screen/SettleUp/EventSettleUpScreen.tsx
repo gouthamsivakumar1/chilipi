@@ -5,9 +5,9 @@ import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
-import ContactSettleListItemComponent from './ContactSettleListItem';
+import EventSettleListItemComponent from './EventSettleUpListItem';
 
-const ContactSettleListComponent: React.FC = () => {
+const EventSettleListComponent: React.FC = () => {
   const theme = useTheme();
   const {width} = useLayout();
   const {goBack} = useNavigation();
@@ -64,7 +64,7 @@ const ContactSettleListComponent: React.FC = () => {
         data={data}
         contentContainerStyle={{margin: 30}}
         renderItem={({item, index}) => (
-          <ContactSettleListItemComponent item={item} index={index} />
+          <EventSettleListItemComponent item={item} index={index} />
         )}></FlatList>
     </SafeAreaView>
   );
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactSettleListComponent;
+export default EventSettleListComponent;

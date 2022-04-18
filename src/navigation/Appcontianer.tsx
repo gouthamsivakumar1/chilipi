@@ -13,6 +13,10 @@ import useAuth from '../hooks/useAuth';
 import MainNavigator from '../screen/main/MainNavigator';
 import EventDetails from '../screen/Events/EventDetails';
 import SettleUpNavigator from './SettleUpNavigator';
+import ContactDetails from '../screen/Contacts/ContactDetails';
+import ContactSearchScreen from '../screen/Contacts/ContactSearchScreen';
+import EventSearchScreen from '../screen/Events/EventSearchScreen';
+import TransactionSearchScreen from '../screen/Transactions/TransactionSearchScreen';
 
 enableScreens();
 
@@ -52,7 +56,20 @@ const AppContainer: React.FC<AppContainerProps> = ({cachedResources}) => {
           <Stack.Screen name="Main" component={MainNavigator} />
           <Stack.Screen name="Auth" component={AuthNavigator} />
           <Stack.Screen name="EventDetails" component={EventDetails} />
+          <Stack.Screen name="ContactDetails" component={ContactDetails} />
           <Stack.Screen name="SettleUp" component={SettleUpNavigator} />
+          <Stack.Screen
+            name="ContactSearchScreen"
+            component={ContactSearchScreen}
+          />
+          <Stack.Screen
+            name="EventSearchScreen"
+            component={EventSearchScreen}
+          />
+          <Stack.Screen
+            name="TransactionSearchScreen"
+            component={TransactionSearchScreen}
+          />
         </Stack.Navigator>
       </View>
     </NavigationContainer>

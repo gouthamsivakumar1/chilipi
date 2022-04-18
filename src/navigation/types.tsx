@@ -6,7 +6,12 @@ export type RootStackParamList = {
   Main: {
     screen: keyof MainBottomStackList;
   };
+  ContactDetails: undefined;
+
   EventDetails: undefined;
+  ContactSearchScreen: undefined;
+  EventSearchScreen: undefined;
+  TransactionSearchScreen: undefined;
   SettleUp: {
     screen: keyof SettleUpStackParamList;
   };
@@ -32,7 +37,7 @@ export type EventStackParamList = {
 
 export type SettleUpStackParamList = {
   SettleUpHomeScreen: undefined;
-  ContactSettleHomeScreen: undefined;
+  EventSettleUpHomeScreen: undefined;
   SettleUpConfirmationScreen: undefined;
 };
 

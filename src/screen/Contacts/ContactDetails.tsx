@@ -1,12 +1,13 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useTheme, Icon} from '@ui-kitten/components';
+import {useTheme} from '@ui-kitten/components';
 import React from 'react';
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import CustomHeader from '../../components/Header';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
 import {RootStackParamList} from '../../navigation/types';
-import ContactDetailsListItemComponent from './ContactDetailsListItem';
+import EventDetailsListItemComponent from './ContactDetailsListItem';
 
 const data = [
   {
@@ -58,7 +59,7 @@ const ContactDetails: React.FC = () => {
   };
   const settleUpNav = () => {
     navigate('SettleUp', {
-      screen: 'ContactSettleHomeScreen',
+      screen: 'SettleUpHomeScreen',
     });
   };
 
@@ -72,20 +73,12 @@ const ContactDetails: React.FC = () => {
           borderBottomRightRadius: width * 0.1,
           borderBottomLeftRadius: width * 0.1,
         }}>
-        <View style={styles.topViewContainer}>
-          <TouchableThrottle onPress={onBack}>
-            <Icon name="arrow-ios-back" fill="#fff" style={styles.topBarIcon} />
-          </TouchableThrottle>
-          <Text style={styles.label} category="h4" bold>
-            Chilipi
-          </Text>
+        <CustomHeader
+          labelStyle={{marginRight: 25}}
+          backButtonEnabled={true}
+          onBackPress={onBack}
+        />
 
-          <Icon
-            name="more-vertical-outline"
-            fill="#fff"
-            style={styles.topBarIcon}
-          />
-        </View>
         <View style={{flex: 1}}>
           <View style={styles.labelInitialContainer}>
             <Text
@@ -164,7 +157,7 @@ const ContactDetails: React.FC = () => {
             paddingBottom: width * 0.3,
           }}
           renderItem={({item, index}) => (
-            <ContactDetailsListItemComponent item={item} index={index} />
+            <EventDetailsListItemComponent item={item} index={index} />
           )}></FlatList>
       </View>
       <View

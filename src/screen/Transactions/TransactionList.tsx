@@ -1,13 +1,17 @@
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Icon, useTheme} from '@ui-kitten/components';
 import React from 'react';
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import CustomHeader from '../../components/Header';
 import Text from '../../components/Text';
 import useLayout from '../../hooks/useLayout';
-import EventListItemComponent from './TransactionListItem';
+import {RootStackParamList} from '../../navigation/types';
+import TransactionListItemComponent from './TransactionListItem';
 
 const TransactionListComponent: React.FC = () => {
   const theme = useTheme();
   const {width} = useLayout();
+  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
 
   const data = [
     {name: 'You Added Fries', status: 'Stuart Little owes you'},
@@ -18,6 +22,7 @@ const TransactionListComponent: React.FC = () => {
       name: 'You added Stuart to the group Trip To Long Islands',
     },
   ];
+  const searchNav = () => navigate('TransactionSearchScreen');
 
   return (
     <SafeAreaView
@@ -25,29 +30,7 @@ const TransactionListComponent: React.FC = () => {
         styles.container,
         {backgroundColor: theme['background-basic-color-1']},
       ]}>
-      <View style={[styles.topBarContainer]}>
-        <View></View>
-        <Text style={styles.label} category="h3" bold>
-          Chilipi
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            source={require('../../assets/icon/search_icon.png')}
-            style={{height: 25, width: 25}}
-          />
-          <Icon
-            name="more-vertical-outline"
-            fill="#fff"
-            style={styles.topBarIcon}
-          />
-        </View>
-      </View>
-
+      <CustomHeader searchEnabled={true} onSearchPress={searchNav} />
       <View
         style={[
           styles.contentContainer,
@@ -57,22 +40,16 @@ const TransactionListComponent: React.FC = () => {
           },
         ]}>
         <View style={{paddingHorizontal: 20, marginTop: 30}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{color: theme['text-ash-color-1']}}>
-              Overall ,you owe
-              <Text style={{color: theme['text-red-color']}}>{`\t`} $100</Text>
-            </Text>
-            <Icon
-              name="options-2-outline"
-              fill={theme['color-ash-primary-2']}
-              style={{height: 25, width: 25}}></Icon>
-          </View>
+          <Text style={{color: theme['text-ash-color-1']}}>
+            Overall ,you owe
+            <Text style={{color: theme['text-red-color']}}>{`\t`} $100</Text>
+          </Text>
 
           <FlatList
             data={data}
             contentContainerStyle={{marginTop: 20}}
             renderItem={({item, index}) => (
-              <EventListItemComponent item={item} index={index} />
+              <TransactionListItemComponent item={item} index={index} />
             )}></FlatList>
         </View>
       </View>
@@ -84,21 +61,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  topBarContainer: {
-    minHeight: 70,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  label: {textAlign: 'center', marginTop: 5, color: '#fff'},
   contentContainer: {
     flex: 1,
     backgroundColor: 'white',
     top: -5,
     marginVertical: 5,
   },
-  topBarIcon: {width: 30, height: 30},
 });
 
 export default TransactionListComponent;

@@ -11,7 +11,7 @@ interface RenderItemProps {
   onPress?(): void;
   index: number;
 }
-const EventDetailsListItemComponent: React.FC<RenderItemProps> = ({
+const EventDetailsDetailsListItemComponent: React.FC<RenderItemProps> = ({
   item,
   onPress,
   index,
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventDetailsListItemComponent;
+export default EventDetailsDetailsListItemComponent;

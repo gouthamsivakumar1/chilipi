@@ -10,7 +10,7 @@ interface RenderItemProps {
   onPress?(): void;
   index: number;
 }
-const EventListItemComponent: React.FC<RenderItemProps> = ({
+const TransactionListItemComponent: React.FC<RenderItemProps> = ({
   item,
   onPress,
   index,
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventListItemComponent;
+export default TransactionListItemComponent;
