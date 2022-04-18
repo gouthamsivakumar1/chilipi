@@ -4,7 +4,7 @@ import React from 'react';
 import {View, StyleSheet, SafeAreaView, ScrollView, LogBox} from 'react-native';
 import useLayout from '../../hooks/useLayout';
 import Text from '../../components/Text';
-import {Avatar} from '@ui-kitten/components';
+import {Avatar, useTheme} from '@ui-kitten/components';
 import {AuthButton, AuthInput} from '../../components/authInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -15,11 +15,15 @@ import {AuthStackParamList, RootStackParamList} from '../../navigation/types';
 const Regsiter: React.FC = () => {
   const {width, height} = useLayout();
   const {navigate} = useNavigation<NavigationProp<AuthStackParamList>>();
+  const theme = useTheme();
 
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required(),
     fullname: Yup.string().required(),
     password: Yup.string().required(),
+    phonenumber: Yup.number()
+      .typeError("doesn't look like a phone number")
+      .required('phone number must be a number.'),
   });
 
   const onLogin = () => {
@@ -29,7 +33,7 @@ const Regsiter: React.FC = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Formik
-        initialValues={{fullname: '', email: '', password: ''}}
+        initialValues={{fullname: '', email: '', password: '', phonenumber: ''}}
         validationSchema={SignupSchema}
         onSubmit={values => console.log(values)}>
         {({
@@ -88,7 +92,7 @@ const Regsiter: React.FC = () => {
                 <View>
                   <AuthInput
                     value={values.fullname}
-                    placeholder="Full name"
+                    placeholder="Enter full name..."
                     onChange={handleChange('fullname')}
                   />
                   {errors.fullname && touched.fullname ? (
@@ -98,7 +102,7 @@ const Regsiter: React.FC = () => {
                   ) : null}
                   <AuthInput
                     value={values.email}
-                    placeholder="Email"
+                    placeholder="Enter email..."
                     onChange={handleChange('email')}
                   />
                   {errors.email && touched.email ? (
@@ -107,9 +111,20 @@ const Regsiter: React.FC = () => {
                     </Text>
                   ) : null}
                   <AuthInput
+                    value={values.phonenumber}
+                    placeholder="Enter phone number..."
+                    onChange={handleChange('phonenumber')}
+                  />
+                  {errors.phonenumber && touched.phonenumber ? (
+                    <Text category="h6" style={{color: 'red', padding: 10}}>
+                      {errors.phonenumber}
+                    </Text>
+                  ) : null}
+                  <AuthInput
                     value={values.password}
-                    placeholder="Password"
+                    placeholder="Enter password..."
                     onChange={handleChange('password')}
+                    passwordIcon={true}
                   />
                   {errors.password && touched.password ? (
                     <Text category="h6" style={{color: 'red', padding: 2}}>
@@ -140,14 +155,20 @@ const Regsiter: React.FC = () => {
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/google.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         shape="square"
                       />
                     </TouchableThrottle>
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/fb.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         size="medium"
                         shape="square"
                       />
@@ -155,7 +176,10 @@ const Regsiter: React.FC = () => {
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/apple.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         shape="square"
                       />
                     </TouchableThrottle>

@@ -13,6 +13,7 @@ import {
   CommonActions,
   NavigationProp,
   useNavigation,
+  useTheme,
 } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,12 +21,15 @@ import {AuthStackParamList} from '../../navigation/types';
 
 const Login = memo(() => {
   const {width, height} = useLayout();
+  const theme = useTheme();
   const {navigate, dispatch} =
     useNavigation<NavigationProp<AuthStackParamList>>();
   const {isInitialized, isSignedIn, isIntro, signIn, signOut} = useAuth();
 
   const SignupSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required(),
+    phonenumber: Yup.number()
+      .typeError("doesn't look like a phone number")
+      .required('phone number must be a number.'),
     password: Yup.string().required(),
   });
 
@@ -44,10 +48,10 @@ const Login = memo(() => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Formik
-        initialValues={{email: '', password: ''}}
+        initialValues={{phonenumber: '', password: ''}}
         validationSchema={SignupSchema}
         onSubmit={async values =>
-          AsyncStorage.setItem('email', values.email)
+          AsyncStorage.setItem('email', values.phonenumber)
             .then(res => {
               signIn();
               nextScreen('Main');
@@ -108,19 +112,20 @@ const Login = memo(() => {
 
                 <View>
                   <AuthInput
-                    value={values.email}
-                    placeholder="Email"
-                    onChange={handleChange('email')}
+                    value={values.phonenumber}
+                    placeholder="Enter phone number ..."
+                    onChange={handleChange('phonenumber')}
                   />
-                  {errors.email && touched.email ? (
+                  {errors.phonenumber && touched.phonenumber ? (
                     <Text category="h6" style={{color: 'red', padding: 10}}>
-                      {errors.email}
+                      {errors.phonenumber}
                     </Text>
                   ) : null}
                   <AuthInput
                     value={values.password}
-                    placeholder="Password"
+                    placeholder=" Enter password ..."
                     onChange={handleChange('password')}
+                    passwordIcon={true}
                   />
                   {errors.password && touched.password ? (
                     <Text category="h6" style={{color: 'red', padding: 10}}>
@@ -154,14 +159,20 @@ const Login = memo(() => {
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/google.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         shape="square"
                       />
                     </TouchableThrottle>
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/fb.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         size="medium"
                         shape="square"
                       />
@@ -169,7 +180,10 @@ const Login = memo(() => {
                     <TouchableThrottle onPress={() => null}>
                       <Avatar
                         source={require('../../assets/icon/apple.png')}
-                        style={{marginRight: 20}}
+                        style={{
+                          marginRight: 20,
+                          backgroundColor: theme['backgorund-white-color'],
+                        }}
                         shape="square"
                       />
                     </TouchableThrottle>
