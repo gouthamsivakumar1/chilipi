@@ -17,6 +17,8 @@ import ContactDetails from '../screen/Contacts/ContactDetails';
 import ContactSearchScreen from '../screen/Contacts/ContactSearchScreen';
 import EventSearchScreen from '../screen/Events/EventSearchScreen';
 import TransactionSearchScreen from '../screen/Transactions/TransactionSearchScreen';
+import ProfileNavigator from './ProfileNavigator';
+import Settings from '../screen/Profile/Setttings';
 
 enableScreens();
 
@@ -58,6 +60,8 @@ const AppContainer: React.FC<AppContainerProps> = ({cachedResources}) => {
           <Stack.Screen name="EventDetails" component={EventDetails} />
           <Stack.Screen name="ContactDetails" component={ContactDetails} />
           <Stack.Screen name="SettleUp" component={SettleUpNavigator} />
+          <Stack.Screen name="Profile" component={ProfileNavigator} />
+
           <Stack.Screen
             name="ContactSearchScreen"
             component={ContactSearchScreen}

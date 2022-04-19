@@ -2,17 +2,19 @@ import React, {memo} from 'react';
 import {ProfileStackParamList} from './types';
 import createStackNavigator from './createStackNavigator';
 import Profile from '../screen/Profile/Profile';
+import Settings from '../screen/Profile/Settings';
 
 const Stack = createStackNavigator<ProfileStackParamList>();
 
-const ProfileNavigator = memo(() => {
+const SettleUpNavigator = memo(() => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="Profile">
-      <Stack.Screen name="Profile" component={Profile} />
+      initialRouteName="ProfileDetails">
+      <Stack.Screen name="ProfileDetails" component={Profile} />
+      <Stack.Screen name="Setting" component={Settings} />
     </Stack.Navigator>
   );
 });
 
-export default ProfileNavigator;
+export default SettleUpNavigator;

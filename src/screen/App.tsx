@@ -10,6 +10,7 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContainer from '../navigation/Appcontianer';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import mapping from '../constants/theme/mapping.json';
 
 const Hello: React.FC = () => {
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
@@ -35,6 +36,7 @@ const Hello: React.FC = () => {
 
         <ApplicationProvider
           {...eva}
+          customMapping={mapping}
           theme={
             theme === 'light'
               ? {...eva.light, ...customTheme, ...darkTheme}

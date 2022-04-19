@@ -15,6 +15,9 @@ export type RootStackParamList = {
   SettleUp: {
     screen: keyof SettleUpStackParamList;
   };
+  Profile: {
+    screen: keyof ProfileStackParamList;
+  };
 };
 
 export type IntroStackParamList = {
@@ -42,7 +45,8 @@ export type SettleUpStackParamList = {
 };
 
 export type ProfileStackParamList = {
-  Profile: undefined;
+  ProfileDetails: undefined;
+  Setting: undefined;
 };
 export type ContactStackParamList = {
   ContactDetails: undefined;

@@ -14,7 +14,7 @@
   "text-white-color": "$color-basic-100",
   "text-black-color": "$color-basic-1100",
   "text-red-color": "$color-red-primary",
-  "text-ash-color": "$colr-ash-primary",
+  "text-ash-color": "$color-ash-primary",
   "text-ash-color-1": "$color-ash-primary-2",
 
   "text-note-color": "$color-basic-700",

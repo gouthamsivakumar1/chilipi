@@ -1,5 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {Icon, Input, useTheme} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {
@@ -13,9 +17,11 @@ import Text from '../../components/Text';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import TouchableThrottle from '../../components/touchableThrottle';
+import {RootStackParamList} from '../../navigation/types';
 
 const Profile: React.FC = () => {
-  const {dispatch} = useNavigation();
+  const {dispatch, navigate} =
+    useNavigation<NavigationProp<RootStackParamList>>();
   const theme = useTheme();
   const [profile, setProfile] = React.useState('');
   const [editEnabled, setEditState] = React.useState(false);
@@ -49,6 +55,10 @@ const Profile: React.FC = () => {
 
   const onEdit = () => {
     setEditState(!editEnabled);
+  };
+
+  const settingNav = () => {
+    navigate('Profile', {screen: 'Setting'});
   };
 
   const logout = () => {
@@ -117,12 +127,13 @@ const Profile: React.FC = () => {
                   style={{width: 30, height: 30}}
                 />
               </TouchableThrottle>
-
-              <Icon
-                name="settings-2-outline"
-                fill={theme['icon-basic-color']}
-                style={{width: 30, height: 30}}
-              />
+              <TouchableThrottle onPress={settingNav}>
+                <Icon
+                  name="settings-2-outline"
+                  fill={theme['icon-basic-color']}
+                  style={{width: 30, height: 30}}
+                />
+              </TouchableThrottle>
             </View>
           </View>
 
