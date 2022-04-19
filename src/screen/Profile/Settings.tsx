@@ -1,4 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {
   Card,
   Icon,
@@ -12,14 +16,14 @@ import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
+import {RootStackParamList} from '../../navigation/types';
 
 const Settings: React.FC = () => {
   const theme = useTheme();
-
-  const {goBack} = useNavigation();
-  const onBack = () => goBack();
   const [allowNotifcation, setNotification] = React.useState(true);
   const [currency, setCurrency] = React.useState(new IndexPath(0));
+  const {goBack, navigate, dispatch} =
+    useNavigation<NavigationProp<RootStackParamList>>();
 
   const currency_list = [
     'INR',
@@ -34,6 +38,22 @@ const Settings: React.FC = () => {
     'OMR',
     'BHD',
   ];
+
+  const onBack = () => goBack();
+  const onFaq = () => navigate('Profile', {screen: 'Faq'});
+  const onTerms = () => navigate('Profile', {screen: 'Terms'});
+  const onDeleteAccount = () => {
+    const resetAction = CommonActions.reset({
+      index: 1,
+      routes: [
+        {
+          name: 'Auth',
+        },
+      ],
+    });
+    dispatch(resetAction);
+  };
+
   return (
     <SafeAreaView
       style={[
@@ -100,13 +120,15 @@ const Settings: React.FC = () => {
               value={currency_list[currency.row]}
               onSelect={index => setCurrency(index)}
               style={{minWidth: 120, backgroundColor: 'white'}}>
-              {currency_list.map(item => (
-                <SelectItem title={item} />
+              {currency_list.map((item, index) => (
+                <SelectItem title={item} key={index} />
               ))}
             </Select>
           </View>
         </Card>
+
         <Card
+          onPress={onDeleteAccount}
           style={[
             styles.contentContainer,
 
@@ -115,13 +137,23 @@ const Settings: React.FC = () => {
               borderColor: theme['border-basic-color'],
             },
           ]}>
-          <TouchableThrottle onPress={() => null}>
-            <Text style={{color: theme['text-ash-color-1']}}>
+          <View style={styles.cardContentContainer}>
+            <Text
+              style={{
+                color: theme['text-ash-color-1'],
+              }}>
               Delete Account
             </Text>
-          </TouchableThrottle>
+            <Icon
+              name="arrow-ios-forward"
+              fill={theme['icon-basic-color']}
+              style={styles.topBarIcon}
+            />
+          </View>
         </Card>
+
         <Card
+          onPress={onFaq}
           style={[
             styles.contentContainer,
 
@@ -130,12 +162,23 @@ const Settings: React.FC = () => {
               borderColor: theme['border-basic-color'],
             },
           ]}>
-          <TouchableThrottle onPress={() => null}>
-            <Text style={{color: theme['text-ash-color-1']}}>FAQ</Text>
-          </TouchableThrottle>
+          <View style={styles.cardContentContainer}>
+            <Text
+              style={{
+                color: theme['text-ash-color-1'],
+              }}>
+              FAQ
+            </Text>
+            <Icon
+              name="arrow-ios-forward"
+              fill={theme['icon-basic-color']}
+              style={styles.topBarIcon}
+            />
+          </View>
         </Card>
 
         <Card
+          onPress={onTerms}
           style={[
             styles.contentContainer,
 
@@ -144,12 +187,17 @@ const Settings: React.FC = () => {
               borderColor: theme['border-basic-color'],
             },
           ]}>
-          <TouchableThrottle onPress={() => null}>
+          <View style={styles.cardContentContainer}>
             <Text
               style={{
                 color: theme['text-ash-color-1'],
               }}>{`Terms & Conditions`}</Text>
-          </TouchableThrottle>
+            <Icon
+              name="arrow-ios-forward"
+              fill={theme['icon-basic-color']}
+              style={styles.topBarIcon}
+            />
+          </View>
         </Card>
       </ScrollView>
     </SafeAreaView>
@@ -159,6 +207,12 @@ const Settings: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  cardContentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   topBarContainer: {
     flexDirection: 'row',

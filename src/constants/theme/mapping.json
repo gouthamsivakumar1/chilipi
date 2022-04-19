@@ -9,7 +9,7 @@
             "status": {
               "basic": {
                 "backgroundColor": "white",
-                "borderColor": "black",
+                "borderColor": "border-basic-color",
                 "textColor": "black"
               }
             }
@@ -27,6 +27,22 @@
               "basic": {
                 "backgroundColor": "white",
                 "borderColor": "black",
+                "textColor": "black"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Toggle": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "variantGroups": {
+            "status": {
+              "basic": {
+                "thumbBackgroundColor": "white",
+                "borderColor": "border-basic-color",
                 "textColor": "black"
               }
             }

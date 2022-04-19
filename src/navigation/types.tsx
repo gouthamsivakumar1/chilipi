@@ -47,6 +47,8 @@ export type SettleUpStackParamList = {
 export type ProfileStackParamList = {
   ProfileDetails: undefined;
   Setting: undefined;
+  Faq: undefined;
+  Terms: undefined;
 };
 export type ContactStackParamList = {
   ContactDetails: undefined;
