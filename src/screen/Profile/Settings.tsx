@@ -13,7 +13,7 @@ import {
   useTheme,
 } from '@ui-kitten/components';
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import {RootStackParamList} from '../../navigation/types';
@@ -42,7 +42,18 @@ const Settings: React.FC = () => {
   const onBack = () => goBack();
   const onFaq = () => navigate('Profile', {screen: 'Faq'});
   const onTerms = () => navigate('Profile', {screen: 'Terms'});
+
   const onDeleteAccount = () => {
+    Alert.alert('', 'Do you want to delete this account ?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => onLogin()},
+    ]);
+  };
+  const onLogin = () => {
     const resetAction = CommonActions.reset({
       index: 1,
       routes: [
