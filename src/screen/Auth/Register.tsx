@@ -1,10 +1,25 @@
 import Svg, {Path} from 'react-native-svg';
 
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView, LogBox} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  LogBox,
+  Alert,
+} from 'react-native';
 import useLayout from '../../hooks/useLayout';
 import Text from '../../components/Text';
-import {Avatar, useTheme} from '@ui-kitten/components';
+import {
+  Avatar,
+  Button,
+  Card,
+  Input,
+  Layout,
+  Modal,
+  useTheme,
+} from '@ui-kitten/components';
 import {AuthButton, AuthInput} from '../../components/authInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -14,6 +29,7 @@ import {AuthStackParamList, RootStackParamList} from '../../navigation/types';
 
 const Regsiter: React.FC = () => {
   const {width, height} = useLayout();
+  const [modalVisible, setModalState] = React.useState(false);
   const {navigate} = useNavigation<NavigationProp<AuthStackParamList>>();
   const theme = useTheme();
 
@@ -26,16 +42,75 @@ const Regsiter: React.FC = () => {
       .required('phone number must be a number.'),
   });
 
-  const onLogin = () => {
-    navigate('Login');
+  const onLogin = () => navigate('Login');
+
+  const EmailAlert = () => {
+    const [error, setError] = React.useState(false);
+    const [otp, setOtpState] = React.useState('');  
+
+    return (
+      <Layout level="1">
+        <Modal visible={modalVisible}>
+          <Card
+            disabled={true}
+            style={{backgroundColor: theme['background-white-color']}}>
+            <View style={{flex: 1}}>
+              <Text
+                style={{textAlign: 'center', color: theme['text-ash-color-1']}}>
+                {` Verification code has been send in your email.Please enter`}
+              </Text>
+            </View>
+
+            <Input
+              placeholder="Enter Otp"
+              keyboardType="numeric"
+              textStyle={{
+                color: theme['text-ash-color-1'],
+              }}
+              style={{
+                marginVertical: 20,
+
+                backgroundColor: theme['backgorund-white-color'],
+                color: theme['text-ash-color-1'],
+              }}
+              onChangeText={text => {
+                setError(false);
+                setOtpState(text);
+              }}
+            />
+            {error && (
+              <Text
+                category="p2"
+                style={{color: theme['text-red-color'], marginBottom: 5}}>
+                Please enter valid otp
+              </Text>
+            )}
+            <Button
+              onPress={() => {
+                if (otp?.length != 0) {
+                  setModalState(false);
+                  onLogin();
+                } else {
+                  setError(true);
+                }
+              }}>
+              Submit
+            </Button>
+          </Card>
+        </Modal>
+      </Layout>
+    );
   };
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      {modalVisible && <EmailAlert />}
       <Formik
         initialValues={{fullname: '', email: '', password: '', phonenumber: ''}}
         validationSchema={SignupSchema}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => {
+          setModalState(true);
+        }}>
         {({
           handleChange,
           handleBlur,
@@ -112,6 +187,7 @@ const Regsiter: React.FC = () => {
                   ) : null}
                   <AuthInput
                     value={values.phonenumber}
+                    type="numeric"
                     placeholder="Enter phone number..."
                     onChange={handleChange('phonenumber')}
                   />
@@ -184,7 +260,7 @@ const Regsiter: React.FC = () => {
                       />
                     </TouchableThrottle>
                   </View>
-                  <TouchableThrottle onPress={onLogin}>
+                  <TouchableThrottle onPress={handleSubmit}>
                     <Text category="h6">Already a {'\n'} Member? Login</Text>
                   </TouchableThrottle>
                 </View>

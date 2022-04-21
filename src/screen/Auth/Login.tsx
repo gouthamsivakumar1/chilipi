@@ -1,7 +1,7 @@
 import Svg, {Path} from 'react-native-svg';
 
 import React, {memo} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView, Button} from 'react-native';
 import useLayout from '../../hooks/useLayout';
 import Text from '../../components/Text';
 import {Avatar, useTheme} from '@ui-kitten/components';
@@ -24,12 +24,22 @@ const Login = memo(() => {
   const {navigate, dispatch} =
     useNavigation<NavigationProp<AuthStackParamList>>();
   const {isInitialized, isSignedIn, isIntro, signIn, signOut} = useAuth();
+  const [PasswordEnabled, setPasswordEnabled] = React.useState(true);
 
   const SignupSchema = Yup.object().shape({
+    otp: Yup.number().when('passwordEnabled', {
+      is: false,
+      then: Yup.number().required(),
+    }),
+
+    passwordEnabled: Yup.boolean(),
     phonenumber: Yup.number()
       .typeError("doesn't look like a phone number")
       .required('phone number must be a number.'),
-    password: Yup.string().required(),
+    password: Yup.string().when('passwordEnabled', {
+      is: true,
+      then: Yup.string().required('Otp should be a number.'),
+    }),
   });
 
   const nextScreen = React.useCallback((screenName: string) => {
@@ -47,7 +57,12 @@ const Login = memo(() => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Formik
-        initialValues={{phonenumber: '', password: ''}}
+        initialValues={{
+          phonenumber: '',
+          password: '',
+          passwordEnabled: PasswordEnabled,
+          otp: '',
+        }}
         validationSchema={SignupSchema}
         onSubmit={async values =>
           AsyncStorage.setItem('email', values.phonenumber)
@@ -112,6 +127,7 @@ const Login = memo(() => {
                 <View>
                   <AuthInput
                     value={values.phonenumber}
+                    type="numeric"
                     placeholder="Enter phone number ..."
                     onChange={handleChange('phonenumber')}
                   />
@@ -120,17 +136,52 @@ const Login = memo(() => {
                       {errors.phonenumber}
                     </Text>
                   ) : null}
-                  <AuthInput
-                    value={values.password}
-                    placeholder=" Enter password ..."
-                    onChange={handleChange('password')}
-                    passwordIcon={true}
+
+                  {PasswordEnabled && (
+                    <View>
+                      <AuthInput
+                        value={values.password}
+                        placeholder=" Enter password ..."
+                        onChange={handleChange('password')}
+                        passwordIcon={true}
+                      />
+                      {errors.password && touched.password ? (
+                        <Text category="h6" style={{color: 'red', padding: 10}}>
+                          {errors.password}
+                        </Text>
+                      ) : null}
+                    </View>
+                  )}
+                  {!PasswordEnabled && (
+                    <View>
+                      <AuthInput
+                        value={values.otp}
+                        type="numeric"
+                        placeholder=" Enter otp ..."
+                        onChange={handleChange('otp')}
+                      />
+                      {errors.otp && touched.otp ? (
+                        <Text category="h6" style={{color: 'red', padding: 10}}>
+                          {errors.otp}
+                        </Text>
+                      ) : null}
+                    </View>
+                  )}
+                  <AuthButton
+                    title={`Login using ${
+                      PasswordEnabled ? 'Otp' : 'Password'
+                    } `}
+                    style={{
+                      marginHorizontal: 50,
+                      alignSelf: 'center',
+                      marginTop: 20,
+                    }}
+                    onPress={() => {
+                      values.passwordEnabled = !PasswordEnabled;
+                      setPasswordEnabled(!PasswordEnabled);
+                    }}
                   />
-                  {errors.password && touched.password ? (
-                    <Text category="h6" style={{color: 'red', padding: 10}}>
-                      {errors.password}
-                    </Text>
-                  ) : null}
+
                   <View
                     style={{
                       flexGrow: 1,
@@ -143,7 +194,7 @@ const Login = memo(() => {
                       Forgot password?
                     </Text>
                     <AuthButton
-                      title={'login'}
+                      title="Login"
                       onPress={handleSubmit}></AuthButton>
                   </View>
                 </View>

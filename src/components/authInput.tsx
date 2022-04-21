@@ -1,20 +1,23 @@
 import {Icon, Input, Text, useTheme} from '@ui-kitten/components';
 import React from 'react';
-import {View} from 'react-native';
+import {KeyboardTypeOptions, View, ViewStyle} from 'react-native';
+import {style} from '../screen/main/MainNavigator';
 import TouchableThrottle from './touchableThrottle';
 export type props = {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
   passwordIcon?: boolean;
+  type?: KeyboardTypeOptions;
 };
 export const AuthInput: React.FC<props> = ({
   placeholder,
   value,
   onChange,
+  type = 'default',
   passwordIcon = false,
 }) => {
-  const [secureText, setSecureText] = React.useState(true);
+  const [secureText, setSecureText] = React.useState(false);
   const theme = useTheme();
   React.useEffect(() => {
     if (passwordIcon) {
@@ -24,7 +27,7 @@ export const AuthInput: React.FC<props> = ({
   return (
     <View>
       <Input
-        keyboardType={'default'}
+        keyboardType={type}
         value={value}
         placeholder={placeholder}
         secureTextEntry={secureText}
@@ -60,18 +63,23 @@ export const AuthInput: React.FC<props> = ({
 export type ButtonProps = {
   title: string;
   onPress: (value: any) => void;
+  style?: ViewStyle;
 };
-export const AuthButton: React.FC<ButtonProps> = ({title, onPress}) => {
+export const AuthButton: React.FC<ButtonProps> = ({title, onPress, style}) => {
+  const theme = useTheme();
   return (
     <TouchableThrottle
-      style={{
-        borderRadius: 10,
-        borderWidth: 1,
-        paddingHorizontal: 30,
-        paddingVertical: 10,
-        borderColor: 'white',
-        backgroundColor: '#4DC55A',
-      }}
+      style={[
+        style,
+        {
+          borderRadius: 10,
+          borderWidth: 1,
+          paddingHorizontal: 30,
+          paddingVertical: 10,
+          borderColor: theme['background-white-color'],
+          backgroundColor: '#4DC55A',
+        },
+      ]}
       onPress={onPress}>
       <Text category="h6">{title}</Text>
     </TouchableThrottle>

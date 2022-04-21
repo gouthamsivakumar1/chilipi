@@ -137,32 +137,6 @@ const Settings: React.FC = () => {
             </Select>
           </View>
         </Card>
-
-        <Card
-          onPress={onDeleteAccount}
-          style={[
-            styles.contentContainer,
-
-            {
-              backgroundColor: theme['background-white-color'],
-              borderColor: theme['border-basic-color'],
-            },
-          ]}>
-          <View style={styles.cardContentContainer}>
-            <Text
-              style={{
-                color: theme['text-ash-color-1'],
-              }}>
-              Delete Account
-            </Text>
-            <Icon
-              name="arrow-ios-forward"
-              fill={theme['icon-basic-color']}
-              style={styles.topBarIcon}
-            />
-          </View>
-        </Card>
-
         <Card
           onPress={onFaq}
           style={[
@@ -203,6 +177,31 @@ const Settings: React.FC = () => {
               style={{
                 color: theme['text-ash-color-1'],
               }}>{`Terms & Conditions`}</Text>
+            <Icon
+              name="arrow-ios-forward"
+              fill={theme['icon-basic-color']}
+              style={styles.topBarIcon}
+            />
+          </View>
+        </Card>
+
+        <Card
+          onPress={onDeleteAccount}
+          style={[
+            styles.contentContainer,
+
+            {
+              backgroundColor: theme['background-white-color'],
+              borderColor: theme['border-basic-color'],
+            },
+          ]}>
+          <View style={styles.cardContentContainer}>
+            <Text
+              style={{
+                color: theme['text-ash-color-1'],
+              }}>
+              Delete Account
+            </Text>
             <Icon
               name="arrow-ios-forward"
               fill={theme['icon-basic-color']}

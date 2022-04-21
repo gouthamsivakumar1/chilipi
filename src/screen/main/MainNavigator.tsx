@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon, useTheme} from '@ui-kitten/components';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, SafeAreaView, Image} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
@@ -11,7 +11,7 @@ import {MainBottomStackList} from '../../navigation/types';
 import Login from '../Auth/Login';
 import TransactionListComponent from '../Transactions/TransactionList';
 
-const Tab = createBottomTabNavigator<MainBottomStackList>();
+const Tab = createBottomTabNavigator();
 
 const CustomTabButton = ({children, onPress}: any) => {
   return (
@@ -40,11 +40,20 @@ const CustomTabButton = ({children, onPress}: any) => {
 
 const Tabs = () => {
   const theme = useTheme();
+  const [addBtn, setAddBtnVisible] = useState(true);
+
+  const isTabBarVisible = route => {
+    // console.log('Enter', JSON.stringify(route));
+    // if()
+    // return !['HideScreen1', 'HideScreen2'].includes(routeName);
+  };
+
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({route, navigation}) => ({
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarVisible: false,
         tabBarStyle: {
           position: 'absolute',
 
@@ -53,11 +62,12 @@ const Tabs = () => {
           bottom: 0,
           ...style.shadow,
         },
-      }}>
+      })}>
       <Tab.Screen
         name="Events"
         component={EventNavigator}
-        options={{
+        options={({route, navigation}) => ({
+          tabBarVisible: false,
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>
               <Icon
@@ -80,7 +90,7 @@ const Tabs = () => {
               </Text>
             </View>
           ),
-        }}
+        })}
       />
 
       <Tab.Screen
@@ -123,7 +133,9 @@ const Tabs = () => {
               style={style.addTabIcon}
             />
           ),
-        }}></Tab.Screen>
+        }}
+      />
+
       <Tab.Screen
         name="Transactions"
         component={TransactionListComponent}
@@ -186,11 +198,7 @@ const Tabs = () => {
 };
 
 const MainNavigator: React.FC = () => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <Tabs />
-    </SafeAreaView>
-  );
+  return <Tabs />;
 };
 
 export const style = StyleSheet.create({
