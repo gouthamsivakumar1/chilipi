@@ -66,6 +66,11 @@ const Tabs = () => {
       <Tab.Screen
         name="Events"
         component={EventNavigator}
+        listeners={{
+          tabPress: e => {
+            setAddBtnVisible(true);
+          },
+        }}
         options={({route, navigation}) => ({
           tabBarVisible: false,
           tabBarIcon: ({focused}) => (
@@ -96,6 +101,11 @@ const Tabs = () => {
       <Tab.Screen
         name="Contacts"
         component={ContactNavigator}
+        listeners={{
+          tabPress: e => {
+            setAddBtnVisible(true);
+          },
+        }}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>
@@ -121,24 +131,35 @@ const Tabs = () => {
           ),
         }}
       />
-
-      <Tab.Screen
-        name="Add"
-        component={Login}
-        options={{
-          tabBarButton: props => <CustomTabButton {...props} />,
-          tabBarIcon: () => (
-            <Image
-              source={require('../../assets/icon/plus.png')}
-              style={style.addTabIcon}
-            />
-          ),
-        }}
-      />
+      {addBtn && (
+        <Tab.Screen
+          name="Add"
+          component={Login}
+          listeners={{
+            tabPress: e => {
+              setAddBtnVisible(false);
+            },
+          }}
+          options={{
+            tabBarButton: props => <CustomTabButton {...props} />,
+            tabBarIcon: () => (
+              <Image
+                source={require('../../assets/icon/plus.png')}
+                style={style.addTabIcon}
+              />
+            ),
+          }}
+        />
+      )}
 
       <Tab.Screen
         name="Transactions"
         component={TransactionListComponent}
+        listeners={{
+          tabPress: e => {
+            setAddBtnVisible(false);
+          },
+        }}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>
