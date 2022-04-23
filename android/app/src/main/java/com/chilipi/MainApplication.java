@@ -13,6 +13,7 @@ import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
 import com.chilipi.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
+import com.swmansion.reanimated.ReanimatedPackage;
 import java.util.List;
 
 

@@ -8,6 +8,8 @@ import TouchableThrottle from '../../components/touchableThrottle';
 import useLayout from '../../hooks/useLayout';
 import {RootStackParamList} from '../../navigation/types';
 import EventDetailsListItemComponent from './EventDetailsListItem';
+import EventDialog from './EventDialog';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 const data = [
   {
@@ -47,12 +49,24 @@ const data = [
     amount: 500,
   },
 ];
+const renderContent = () => (
+  <View
+    style={{
+      backgroundColor: 'black',
+      padding: 16,
+      height: 450,
+    }}>
+    <Text>Swipe down to close</Text>
+  </View>
+);
 
 const EventDetails: React.FC = () => {
   const theme = useTheme();
   const {width} = useLayout();
   const {navigate, goBack} =
     useNavigation<NavigationProp<RootStackParamList>>();
+  const [addDetail, setAddDetails] = React.useState(true);
+  const sheetRef = React.useRef(null);
 
   const onBack = () => {
     goBack();
@@ -62,6 +76,7 @@ const EventDetails: React.FC = () => {
       screen: 'EventSettleUpHomeScreen',
     });
   };
+  const addDetails = () => setAddDetails(!addDetail);
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -145,7 +160,7 @@ const EventDetails: React.FC = () => {
         </View>
       </View>
 
-      <View
+      {/* <View
         style={{
           flex: 1,
         }}>
@@ -159,8 +174,17 @@ const EventDetails: React.FC = () => {
           renderItem={({item, index}) => (
             <EventDetailsListItemComponent item={item} index={index} />
           )}></FlatList>
-      </View>
-      <View
+      </View> */}
+      {addDetail && (
+        <BottomSheet
+          ref={sheetRef}
+          snapPoints={[450, 300, 0]}
+          borderRadius={10}
+          renderContent={renderContent}
+        />
+      )}
+      <TouchableThrottle
+        onPress={addDetails}
         style={[
           styles.floatingButton,
           {backgroundColor: theme['background-basic-color-1']},
@@ -172,7 +196,7 @@ const EventDetails: React.FC = () => {
             {backgroundColor: theme['background-basic-color-1']},
           ]}
         />
-      </View>
+      </TouchableThrottle>
     </SafeAreaView>
   );
 };
