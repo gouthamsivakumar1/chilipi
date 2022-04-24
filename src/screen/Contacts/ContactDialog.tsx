@@ -10,14 +10,13 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {AuthButton} from '../../components/authInput';
 import moment from 'moment';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export type props = {
   visible: boolean;
   onChange: (value: any) => void;
 };
 
-const EventDialog: React.FC<props> = ({visible, onChange}) => {
+const ContactDialog: React.FC<props> = ({visible, onChange}) => {
   const modalizeRef = React.useRef<Modalize>(null);
 
   React.useEffect(() => {
@@ -53,8 +52,7 @@ const RenderContent = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
+  const handleConfirm = (date: Date) => {
     setTimeState(date);
     hideDatePicker();
   };
@@ -182,4 +180,4 @@ const styles = StyleSheet.create({
   handleSubmitBtn: {flexWrap: 'wrap', alignSelf: 'center', marginVertical: 10},
 });
 
-export default EventDialog;
+export default ContactDialog;

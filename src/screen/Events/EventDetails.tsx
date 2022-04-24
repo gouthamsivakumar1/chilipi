@@ -10,6 +10,7 @@ import {RootStackParamList} from '../../navigation/types';
 import EventDetailsListItemComponent from './EventDetailsListItem';
 import EventDialog from './EventDialog';
 import BottomSheet from 'reanimated-bottom-sheet';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const data = [
   {
@@ -49,23 +50,13 @@ const data = [
     amount: 500,
   },
 ];
-const renderContent = () => (
-  <View
-    style={{
-      backgroundColor: 'black',
-      padding: 16,
-      height: 450,
-    }}>
-    <Text>Swipe down to close</Text>
-  </View>
-);
 
-const EventDetails: React.FC = () => {
+const EventDetails: React.FC = props => {
   const theme = useTheme();
   const {width} = useLayout();
   const {navigate, goBack} =
     useNavigation<NavigationProp<RootStackParamList>>();
-  const [addDetail, setAddDetails] = React.useState(true);
+  const [addDetail, setAddDetails] = React.useState(false);
   const sheetRef = React.useRef(null);
 
   const onBack = () => {
@@ -76,15 +67,15 @@ const EventDetails: React.FC = () => {
       screen: 'EventSettleUpHomeScreen',
     });
   };
-  const addDetails = () => setAddDetails(!addDetail);
+  const addDetails = (value: boolean) => setAddDetails(value);
 
   return (
     <SafeAreaView style={[styles.container]}>
+      <EventDialog onChange={addDetails} visible={addDetail} />
       <View
         style={{
           justifyContent: 'space-between',
           backgroundColor: theme['background-basic-color-1'],
-          flex: 0.7,
           borderBottomRightRadius: width * 0.1,
           borderBottomLeftRadius: width * 0.1,
         }}>
@@ -93,98 +84,103 @@ const EventDetails: React.FC = () => {
           backButtonEnabled={true}
           onBackPress={onBack}
         />
-
-        <View style={{flex: 1}}>
-          <View style={styles.labelInitialContainer}>
-            <Text
-              category="h1"
-              style={{
-                marginTop: 3,
-                color: theme['text-red-color'],
-                textAlignVertical: 'center',
-                textAlign: 'center',
-              }}>
-              S
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.detailsContainer}>
-          <View style={{alignSelf: 'center'}}>
-            <Text category="p1" style={{color: theme['text-white-color']}}>
-              Staurt Little
-            </Text>
-            <Text
-              category="p2"
-              style={{color: theme['text-white-color'], marginVertical: 10}}>
-              You owe
-            </Text>
-          </View>
-          <View style={styles.dollarContainer}>
-            <Text
-              category="p1"
-              style={{paddingHorizontal: 5, color: theme['text-white-color']}}>
-              $
-            </Text>
-            <Text category="h4" style={{color: theme['text-white-color']}}>
-              500
-            </Text>
-          </View>
-        </View>
-        <View style={styles.settleUpBtnContainer}>
-          <TouchableThrottle onPress={settleUpNav}>
-            <Text
-              category="p1"
-              style={[
-                styles.topBarSettleContainer,
-                {
-                  backgroundColor: theme['background-basic-color-3'],
-                },
-              ]}>
-              Settle Up
-            </Text>
-          </TouchableThrottle>
-          <TouchableThrottle onPress={() => null}>
-            <Text
-              category="p1"
-              style={[
-                styles.topBarSettleContainer,
-                {
-                  paddingHorizontal: 20,
-                  backgroundColor: theme['background-basic-color-3'],
-                },
-              ]}>
-              Send Reminder
-            </Text>
-          </TouchableThrottle>
-        </View>
       </View>
+      <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: theme['background-basic-color-1'],
+            borderBottomRightRadius: width * 0.1,
+            borderBottomLeftRadius: width * 0.1,
+            paddingBottom: 30,
+          }}>
+          <View>
+            <View style={styles.labelInitialContainer}>
+              <Text
+                category="h1"
+                style={{
+                  marginTop: 3,
+                  color: theme['text-red-color'],
+                  textAlignVertical: 'center',
+                  textAlign: 'center',
+                }}>
+                S
+              </Text>
+            </View>
+          </View>
+          <View style={styles.detailsContainer}>
+            <View style={{alignSelf: 'center'}}>
+              <Text category="p1" style={{color: theme['text-white-color']}}>
+                Staurt Little
+              </Text>
+              <Text
+                category="p2"
+                style={{color: theme['text-white-color'], marginVertical: 10}}>
+                You owe
+              </Text>
+            </View>
+            <View style={styles.dollarContainer}>
+              <Text
+                category="p1"
+                style={{
+                  paddingHorizontal: 5,
+                  color: theme['text-white-color'],
+                }}>
+                $
+              </Text>
+              <Text category="h4" style={{color: theme['text-white-color']}}>
+                500
+              </Text>
+            </View>
+          </View>
+          <View style={styles.settleUpBtnContainer}>
+            <TouchableThrottle onPress={settleUpNav}>
+              <Text
+                category="p1"
+                style={[
+                  styles.topBarSettleContainer,
+                  {
+                    backgroundColor: theme['background-basic-color-3'],
+                  },
+                ]}>
+                Settle Up
+              </Text>
+            </TouchableThrottle>
+            <TouchableThrottle onPress={() => null}>
+              <Text
+                category="p1"
+                style={[
+                  styles.topBarSettleContainer,
+                  {
+                    paddingHorizontal: 20,
+                    backgroundColor: theme['background-basic-color-3'],
+                  },
+                ]}>
+                Send Reminder
+              </Text>
+            </TouchableThrottle>
+          </View>
+        </View>
 
-      {/* <View
-        style={{
-          flex: 1,
-        }}>
-        <FlatList
-          data={data}
-          contentContainerStyle={{
-            marginTop: 20,
-            marginHorizontal: 20,
-            paddingBottom: width * 0.3,
-          }}
-          renderItem={({item, index}) => (
-            <EventDetailsListItemComponent item={item} index={index} />
-          )}></FlatList>
-      </View> */}
-      {addDetail && (
-        <BottomSheet
-          ref={sheetRef}
-          snapPoints={[450, 300, 0]}
-          borderRadius={10}
-          renderContent={renderContent}
-        />
-      )}
+        <View
+          style={{
+            flex: 1,
+          }}>
+          <FlatList
+            nestedScrollEnabled={true}
+            data={data}
+            contentContainerStyle={{
+              marginTop: 20,
+              marginHorizontal: 20,
+              paddingBottom: width * 0.3,
+            }}
+            renderItem={({item, index}) => (
+              <EventDetailsListItemComponent item={item} index={index} />
+            )}></FlatList>
+        </View>
+      </ScrollView>
       <TouchableThrottle
-        onPress={addDetails}
+        onPress={() => addDetails(true)}
         style={[
           styles.floatingButton,
           {backgroundColor: theme['background-basic-color-1']},
@@ -250,7 +246,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 35,
-    marginTop: 5,
+    marginTop: 50 ,
   },
   floatingButton: {
     width: 60,

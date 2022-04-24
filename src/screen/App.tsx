@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContainer from '../navigation/Appcontianer';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import mapping from '../constants/theme/mapping.json';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Hello: React.FC = () => {
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
@@ -30,22 +31,24 @@ const Hello: React.FC = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <ThemeContext.Provider value={{theme, toggleTheme}}>
-        <IconRegistry icons={EvaIconsPack} />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SafeAreaProvider>
+        <ThemeContext.Provider value={{theme, toggleTheme}}>
+          <IconRegistry icons={EvaIconsPack} />
 
-        <ApplicationProvider
-          {...eva}
-          customMapping={mapping}
-          theme={
-            theme === 'light'
-              ? {...eva.light, ...customTheme, ...darkTheme}
-              : {...eva.dark, ...customTheme, ...darkTheme}
-          }>
-          <AppContainer cachedResources={true} />
-        </ApplicationProvider>
-      </ThemeContext.Provider>
-    </SafeAreaProvider>
+          <ApplicationProvider
+            {...eva}
+            customMapping={mapping}
+            theme={
+              theme === 'light'
+                ? {...eva.light, ...customTheme, ...darkTheme}
+                : {...eva.dark, ...customTheme, ...darkTheme}
+            }>
+            <AppContainer cachedResources={true} />
+          </ApplicationProvider>
+        </ThemeContext.Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 

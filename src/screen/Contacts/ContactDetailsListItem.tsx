@@ -2,6 +2,8 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Card, Layout, useTheme} from '@ui-kitten/components';
 import React from 'react';
 import {StyleSheet, View, Image} from 'react-native';
+import CustomNameIconContainer from '../../components/CustomNameIconContainer';
+import CustomPrimaryNameIcon from '../../components/customNameIconPrimary';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import {EventDetailsProps, EventStackParamList} from '../../navigation/types';
@@ -40,7 +42,8 @@ const ContactDetailsListItemComponent: React.FC<RenderItemProps> = ({
           }}>
           <View style={{flexWrap: 'wrap', flexDirection: 'column'}}>
             <View style={{flexDirection: 'column', paddingHorizontal: 10}}>
-              <Image source={require('../../assets/icon/hotel.png')} />
+              {/* <Image source={require('../../assets/icon/hotel.png')} /> */}
+              <CustomPrimaryNameIcon name={item?.name} index={index} />
 
               <Text
                 category="p1"

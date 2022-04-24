@@ -14,10 +14,14 @@ import com.facebook.soloader.SoLoader;
 import com.chilipi.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import com.swmansion.reanimated.ReanimatedPackage;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import java.util.List;
 
 
 public class MainApplication extends Application implements ReactApplication {
+
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -40,6 +44,9 @@ public class MainApplication extends Application implements ReactApplication {
           return "index";
         }
       };
+
+
+
 
   private final ReactNativeHost mNewArchitectureNativeHost =
       new MainApplicationReactNativeHost(this);
