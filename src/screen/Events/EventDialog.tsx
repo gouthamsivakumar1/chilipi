@@ -10,7 +10,6 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {AuthButton} from '../../components/authInput';
 import moment from 'moment';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export type props = {
   visible: boolean;
@@ -53,7 +52,7 @@ const RenderContent = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = date => {
+  const handleConfirm = (date: Date) => {
     console.warn('A date has been picked: ', date);
     setTimeState(date);
     hideDatePicker();
