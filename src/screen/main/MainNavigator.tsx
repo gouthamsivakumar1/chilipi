@@ -1,19 +1,21 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Icon, useTheme} from '@ui-kitten/components';
-import React, {useState} from 'react';
-import {StyleSheet, View, SafeAreaView, Image} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Image} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import ContactNavigator from '../../navigation/ContactNavigator';
 import EventNavigator from '../../navigation/EventNavigator';
 import ProfileNavigator from '../../navigation/ProfileNavigator';
-import {MainBottomStackList} from '../../navigation/types';
-import Login from '../Auth/Login';
+import {RootStackParamList} from '../../navigation/types';
+import AddEvents from '../Events/AddEvent';
 import TransactionListComponent from '../Transactions/TransactionList';
 
 const Tab = createBottomTabNavigator();
 
 const CustomTabButton = ({children, onPress}: any) => {
+  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <TouchableThrottle
       style={{
@@ -24,7 +26,7 @@ const CustomTabButton = ({children, onPress}: any) => {
         borderRadius: 45,
         backgroundColor: 'white',
       }}
-      onPress={() => null}>
+      onPress={() => navigate('AddEvents')}>
       <View
         style={{
           width: 70,
@@ -40,14 +42,6 @@ const CustomTabButton = ({children, onPress}: any) => {
 
 const Tabs = () => {
   const theme = useTheme();
-  const [addBtn, setAddBtnVisible] = useState(true);
-
-  const isTabBarVisible = route => {
-    // console.log('Enter', JSON.stringify(route));
-    // if()
-    // return !['HideScreen1', 'HideScreen2'].includes(routeName);
-  };
-
   return (
     <Tab.Navigator
       screenOptions={({route, navigation}) => ({
@@ -66,11 +60,6 @@ const Tabs = () => {
       <Tab.Screen
         name="Events"
         component={EventNavigator}
-        listeners={{
-          tabPress: e => {
-            setAddBtnVisible(true);
-          },
-        }}
         options={({route, navigation}) => ({
           tabBarVisible: false,
           tabBarIcon: ({focused}) => (
@@ -101,11 +90,6 @@ const Tabs = () => {
       <Tab.Screen
         name="Contacts"
         component={ContactNavigator}
-        listeners={{
-          tabPress: e => {
-            setAddBtnVisible(true);
-          },
-        }}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>
@@ -131,35 +115,24 @@ const Tabs = () => {
           ),
         }}
       />
-      {addBtn && (
-        <Tab.Screen
-          name="Add"
-          component={Login}
-          listeners={{
-            tabPress: e => {
-              setAddBtnVisible(false);
-            },
-          }}
-          options={{
-            tabBarButton: props => <CustomTabButton {...props} />,
-            tabBarIcon: () => (
-              <Image
-                source={require('../../assets/icon/plus.png')}
-                style={style.addTabIcon}
-              />
-            ),
-          }}
-        />
-      )}
+
+      <Tab.Screen
+        name="Add"
+        component={AddEvents}
+        options={{
+          tabBarButton: props => <CustomTabButton {...props} />,
+          tabBarIcon: () => (
+            <Image
+              source={require('../../assets/icon/plus.png')}
+              style={style.addTabIcon}
+            />
+          ),
+        }}
+      />
 
       <Tab.Screen
         name="Transactions"
         component={TransactionListComponent}
-        listeners={{
-          tabPress: e => {
-            setAddBtnVisible(false);
-          },
-        }}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={style.tabIconContainer}>

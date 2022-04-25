@@ -46,7 +46,7 @@ const Regsiter: React.FC = () => {
 
   const EmailAlert = () => {
     const [error, setError] = React.useState(false);
-    const [otp, setOtpState] = React.useState('');  
+    const [otp, setOtpState] = React.useState('');
 
     return (
       <Layout level="1">
@@ -119,7 +119,10 @@ const Regsiter: React.FC = () => {
           errors,
           touched,
         }) => (
-          <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}>
             <View style={{flex: 0.4}}>
               <View style={{position: 'absolute', right: -110, top: -20}}>
                 <Svg width="300" height="217" viewBox="0 0 250 217" fill="none">

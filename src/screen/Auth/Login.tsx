@@ -80,7 +80,10 @@ const Login = memo(() => {
           errors,
           touched,
         }) => (
-          <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}>
             <View style={{flex: 0.4}}>
               <View style={{position: 'absolute', right: -110, top: -20}}>
                 <Svg width="300" height="217" viewBox="0 0 250 217" fill="none">

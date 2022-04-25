@@ -61,6 +61,7 @@ const EventSettleListComponent: React.FC = () => {
         who do you want to settle up with?
       </Text>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={data}
         contentContainerStyle={{margin: 30}}
         renderItem={({item, index}) => (

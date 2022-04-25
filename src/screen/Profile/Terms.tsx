@@ -30,7 +30,7 @@ const Terms: React.FC = () => {
           {`Terms & Conditions`}
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
             color: theme['text-ash-color-1'],

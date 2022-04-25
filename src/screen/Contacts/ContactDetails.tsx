@@ -89,7 +89,10 @@ const ContactDetails: React.FC = () => {
           onBackPress={onBack}
         />
       </View>
-      <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
         <View
           style={{
             flex: 1,

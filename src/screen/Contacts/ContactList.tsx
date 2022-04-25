@@ -46,6 +46,7 @@ const ContactListComponent: React.FC = () => {
 
           <FlatList
             data={data}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{marginTop: 20}}
             renderItem={({item, index}) => (
               <ContactListItemComponent item={item} index={index} />

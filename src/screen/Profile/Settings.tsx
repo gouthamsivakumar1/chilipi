@@ -85,7 +85,9 @@ const Settings: React.FC = () => {
           Settings
         </Text>
       </View>
-      <ScrollView contentContainerStyle={{flexGrow: 1, padding: 20}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, padding: 20}}>
         <Card
           style={[
             styles.contentContainer,

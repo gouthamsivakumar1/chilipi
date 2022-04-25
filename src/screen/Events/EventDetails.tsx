@@ -9,7 +9,6 @@ import useLayout from '../../hooks/useLayout';
 import {RootStackParamList} from '../../navigation/types';
 import EventDetailsListItemComponent from './EventDetailsListItem';
 import EventDialog from './EventDialog';
-import BottomSheet from 'reanimated-bottom-sheet';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const data = [
@@ -85,7 +84,10 @@ const EventDetails: React.FC = props => {
           onBackPress={onBack}
         />
       </View>
-      <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
         <View
           style={{
             flex: 1,
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 35,
-    marginTop: 50 ,
+    marginTop: 50,
   },
   floatingButton: {
     width: 60,

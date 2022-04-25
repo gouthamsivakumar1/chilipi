@@ -9,6 +9,7 @@ export type RootStackParamList = {
   ContactDetails: undefined;
 
   EventDetails: undefined;
+  AddEvents: undefined;
   ContactSearchScreen: undefined;
   EventSearchScreen: undefined;
   TransactionSearchScreen: undefined;

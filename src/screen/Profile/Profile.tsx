@@ -138,6 +138,7 @@ const Profile: React.FC = () => {
           </View>
 
           <ScrollView
+            showsVerticalScrollIndicator={false}
             style={{backgroundColor: theme['background-white-color']}}
             contentContainerStyle={{
               paddingHorizontal: 20,

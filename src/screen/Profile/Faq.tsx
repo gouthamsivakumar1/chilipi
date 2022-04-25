@@ -30,7 +30,7 @@ const FAQ: React.FC = () => {
           FAQ
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
             color: theme['text-ash-color-1'],

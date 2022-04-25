@@ -45,6 +45,7 @@ const EventListComponent: React.FC = () => {
 
           <FlatList
             data={data}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{marginTop: 20}}
             renderItem={({item, index}) => (
               <EventListItemComponent item={item} index={index} />
