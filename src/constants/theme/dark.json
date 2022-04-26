@@ -8,6 +8,7 @@
   "background-basic-color-7": "$color-basic-800",
   "background-basic-color-8": "$color-primary-1000",
   "background-white-color": "$color-basic-100",
+  "background-black-color": "$color-basic-1100",
 
   "text-basic-color": "$color-basic-400",
   "text-body-color": "$color-basic-600",

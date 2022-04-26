@@ -21,7 +21,7 @@ import {RootStackParamList} from '../../navigation/types';
 const Settings: React.FC = () => {
   const theme = useTheme();
   const [allowNotifcation, setNotification] = React.useState(true);
-  const [currency, setCurrency] = React.useState(new IndexPath(0));
+  const [currency, setCurrency] = React.useState<any>(new IndexPath(0));
   const {goBack, navigate, dispatch} =
     useNavigation<NavigationProp<RootStackParamList>>();
 

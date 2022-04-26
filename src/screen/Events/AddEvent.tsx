@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Datepicker, Icon, Input, useTheme} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View, Image} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import moment from 'moment';
@@ -38,12 +38,15 @@ const addExpenseSchema = Yup.object().shape({
   date: Yup.string().required(),
 });
 
-const EventInput: React.FC = () => {
+export type props = {
+  imgUrl: string;
+  onChange: (value: any) => void;
+};
+const EventInput: React.FC<props> = ({onChange, imgUrl}) => {
   const theme = useTheme();
 
   const [date, setDate] = React.useState(new Date());
   const [time, setTimeState] = React.useState(new Date());
-  const [img, setImgState] = React.useState<any>('');
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
   const showDatePicker = () => {
@@ -71,11 +74,61 @@ const EventInput: React.FC = () => {
       {({handleChange, handleSubmit, values, errors, touched}) => (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           <View>
-            <EventImage onChange={() => null} />
-            <Text>{JSON.stringify(img)}</Text>
+            <TouchableThrottle onPress={onChange}>
+              {imgUrl?.length == 0 ? (
+                <View
+                  style={[
+                    styles.imgContainer,
+                    {
+                      backgroundColor: theme['icon-basic-color'],
+                      padding: 20,
+                    },
+                  ]}>
+                  <Icon name="camera" fill={theme['background-white-color']} />
+                </View>
+              ) : (
+                <View style={[styles.imgContainer]}>
+                  <Image
+                    style={[
+                      {
+                        backgroundColor: 'black',
+                        height: 150,
+                        width: 150,
+                        borderRadius: 75,
+                      },
+                    ]}
+                    resizeMode="contain"
+                    source={{
+                      uri: imgUrl,
+                    }}
+                  />
+                  <View
+                    style={[
+                      styles.imgViewContainer,
+                      {
+                        backgroundColor: theme['icon-basic-color'],
+                      },
+                    ]}>
+                    <Icon
+                      name="camera"
+                      style={{
+                        flex: 1,
+                        height: undefined,
+                        width: undefined,
+                      }}
+                      fill={theme['background-white-color']}
+                    />
+                  </View>
+                </View>
+              )}
+            </TouchableThrottle>
             <Text
               category="p1"
-              style={{color: theme['text-ash-color-1'], marginVertical: 5}}
+              style={{
+                color: theme['text-ash-color-1'],
+                marginVertical: 5,
+                marginTop: 50,
+              }}
               bold>
               Event Name
             </Text>
@@ -146,15 +199,32 @@ const EventInput: React.FC = () => {
 
 const AddEvents: React.FC = () => {
   const theme = useTheme();
+  const [modalVisible, setModalState] = React.useState(false);
+  const [imgUrl, setimgUrl] = React.useState('');
+
   return (
     <SafeAreaView
       style={[
         styles.container,
         {backgroundColor: theme['background-white-color']},
       ]}>
+      {modalVisible && (
+        <EventImage
+          onChange={value => {
+            setimgUrl(value);
+            console.log('value', value);
+          }}
+          onClosing={() => setModalState(false)}
+        />
+      )}
       <Header />
       <View style={{marginVertical: 20, flex: 1}}>
-        <EventInput />
+        <EventInput
+          imgUrl={imgUrl}
+          onChange={value => {
+            setModalState(true);
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -174,10 +244,10 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     alignSelf: 'center',
-    height: 100,
-    width: 100,
+    height: 150,
+    width: 150,
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 75,
   },
   scrollViewContainer: {
     flexGrow: 1,
@@ -196,6 +266,14 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   handleSubmitBtn: {flexWrap: 'wrap', alignSelf: 'center', marginVertical: 10},
+  imgViewContainer: {
+    height: 50,
+    width: 50,
+    top: -50,
+    right: -110,
+    borderRadius: 25,
+    padding: 10,
+  },
 });
 
 export default AddEvents;
