@@ -26,8 +26,16 @@ const CustomHeader = memo(
           styles.topBarContainer,
           {backgroundColor: theme['background-basic-color-1']},
         ]}>
-        <View>
-          {backButtonEnabled && (
+        {backButtonEnabled && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <TouchableThrottle onPress={onBackPress}>
               <Icon
                 name="arrow-ios-back"
@@ -35,21 +43,42 @@ const CustomHeader = memo(
                 style={styles.topBarsIcon}
               />
             </TouchableThrottle>
-          )}
+          </View>
+        )}
+
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={[styles.label, labelStyle]} category="h3" bold>
+            Chilipi
+          </Text>
         </View>
-        <Text style={[styles.label, labelStyle]} category="h3" bold>
-          Chilipi
-        </Text>
-        <View>
-          {searchEnabled && (
+
+        {searchEnabled && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <TouchableThrottle onPress={onSearchPress}>
               <Image
                 source={require('../assets/icon/search_icon.png')}
                 style={{height: 25, width: 25, marginRight: 20}}
               />
             </TouchableThrottle>
-          )}
-        </View>
+          </View>
+        )}
       </View>
     );
   },

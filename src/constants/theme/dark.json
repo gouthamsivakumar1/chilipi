@@ -21,6 +21,7 @@
   "text-note-color": "$color-basic-700",
   "icon-basic-color": "$color-basic-600",
   "icon-white-color": "$color-basic-100",
+  "icon-red-color": "$color-red-primary",
 
   "border-basic-color": "$color-basic-500",
 

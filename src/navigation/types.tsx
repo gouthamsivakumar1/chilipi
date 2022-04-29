@@ -19,6 +19,7 @@ export type RootStackParamList = {
   Profile: {
     screen: keyof ProfileStackParamList;
   };
+  invitee: undefined;
 };
 
 export type IntroStackParamList = {

@@ -1,8 +1,19 @@
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {Datepicker, Icon, Input, useTheme} from '@ui-kitten/components';
 import {Formik} from 'formik';
-import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  ViewProps,
+} from 'react-native';
 import Text from '../../components/Text';
 import TouchableThrottle from '../../components/touchableThrottle';
 import moment from 'moment';
@@ -10,12 +21,16 @@ import * as Yup from 'yup';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {AuthButton} from '../../components/authInput';
 import EventImage from './EventImage';
-const Header: React.FC = () => {
+import {RootStackParamList} from '../../navigation/types';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import ChipSelect from '../../components/chipSelect';
+
+const Header: React.FC<ViewProps> = () => {
   const theme = useTheme();
-  const {goBack} = useNavigation();
+  const navigation = useNavigation();
   return (
     <View style={styles.topBarContainer}>
-      <TouchableThrottle onPress={goBack}>
+      <TouchableThrottle onPress={navigation.goBack}>
         <Icon
           name="arrow-ios-back"
           fill={theme['text-input-color-1']}
@@ -44,10 +59,11 @@ export type props = {
 };
 const EventInput: React.FC<props> = ({onChange, imgUrl}) => {
   const theme = useTheme();
-
   const [date, setDate] = React.useState(new Date());
   const [time, setTimeState] = React.useState(new Date());
+  const [invitee, setInviteeState] = React.useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  const {navigate} = useNavigation<any>();
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -61,6 +77,13 @@ const EventInput: React.FC<props> = ({onChange, imgUrl}) => {
     console.warn('A date has been picked: ', date);
     setTimeState(date);
     hideDatePicker();
+  };
+  const onGetInvitees = (data: never[]) => {
+    console.log('data', data);
+    setInviteeState(data);
+  };
+  const onSettingNav = () => {
+    navigate('invitee', {state: {onSelect: onGetInvitees}});
   };
 
   return (
@@ -149,6 +172,51 @@ const EventInput: React.FC<props> = ({onChange, imgUrl}) => {
                 {errors.name}
               </Text>
             ) : null}
+            <View style={{marginVertical: 20}}>
+              <View style={styles.addInviteeContainer}>
+                <Text
+                  category="p1"
+                  style={{color: theme['text-ash-color-1'], marginVertical: 5}}
+                  bold>
+                  Add Invitees
+                </Text>
+                <TouchableThrottle onPress={onSettingNav}>
+                  <View
+                    style={{
+                      padding: 5,
+                      backgroundColor: theme['icon-basic-color'],
+
+                      borderRadius: 20,
+                    }}>
+                    <Icon
+                      name="people-outline"
+                      fill={theme['icon-white-color']}
+                      style={{
+                        height: 25,
+                        width: 25,
+                      }}
+                    />
+                  </View>
+                </TouchableThrottle>
+              </View>
+              {invitee?.length != 0 && (
+                <View style={{marginTop: 10}}>
+                  <ChipSelect
+                    list={invitee}
+                    itemOnDelete={async list => {
+                      console.log('Enter', list);
+                      setInviteeState([]);
+                      setTimeout(() => {
+                        setInviteeState(list);
+                      }, 5);
+                    }}
+                    deleteEnabled={true}
+                    icon="close-circle-outline"
+                  />
+                </View>
+              )}
+            </View>
+
             <Text
               category="p1"
               style={{color: theme['text-ash-color-1'], marginVertical: 5}}
@@ -197,7 +265,7 @@ const EventInput: React.FC<props> = ({onChange, imgUrl}) => {
   );
 };
 
-const AddEvents: React.FC = () => {
+const AddEvents: React.FC<any> = ({route, navigation}): any => {
   const theme = useTheme();
   const [modalVisible, setModalState] = React.useState(false);
   const [imgUrl, setimgUrl] = React.useState('');
@@ -273,6 +341,10 @@ const styles = StyleSheet.create({
     right: -110,
     borderRadius: 25,
     padding: 10,
+  },
+  addInviteeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

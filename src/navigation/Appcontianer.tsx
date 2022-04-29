@@ -19,6 +19,7 @@ import EventSearchScreen from '../screen/Events/EventSearchScreen';
 import TransactionSearchScreen from '../screen/Transactions/TransactionSearchScreen';
 import ProfileNavigator from './ProfileNavigator';
 import AddEvents from '../screen/Events/AddEvent';
+import Invitee from '../screen/Events/invitee';
 
 enableScreens();
 
@@ -76,6 +77,8 @@ const AppContainer: React.FC<AppContainerProps> = ({cachedResources}) => {
             name="TransactionSearchScreen"
             component={TransactionSearchScreen}
           />
+
+          <Stack.Screen name="invitee" component={Invitee} />
         </Stack.Navigator>
       </View>
     </NavigationContainer>
