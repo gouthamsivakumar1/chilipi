@@ -24,92 +24,43 @@ import {AuthButton, AuthInput} from '../../components/authInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import TouchableThrottle from '../../components/touchableThrottle';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {AuthStackParamList, RootStackParamList} from '../../navigation/types';
 
 const Regsiter: React.FC = () => {
   const {width, height} = useLayout();
   const [modalVisible, setModalState] = React.useState(false);
-  const {navigate} = useNavigation<NavigationProp<AuthStackParamList>>();
+  const {navigate, dispatch} =
+    useNavigation<NavigationProp<AuthStackParamList>>();
   const theme = useTheme();
 
   const SignupSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required(),
     fullname: Yup.string().required(),
-    password: Yup.string().required(),
-    phonenumber: Yup.number()
-      .typeError("doesn't look like a phone number")
-      .required('phone number must be a number.'),
   });
 
-  const onLogin = () => navigate('Login');
-
-  const EmailAlert = () => {
-    const [error, setError] = React.useState(false);
-    const [otp, setOtpState] = React.useState('');
-
-    return (
-      <Layout level="1">
-        <Modal visible={modalVisible}>
-          <Card
-            disabled={true}
-            style={{backgroundColor: theme['background-white-color']}}>
-            <View style={{flex: 1}}>
-              <Text
-                style={{textAlign: 'center', color: theme['text-ash-color-1']}}>
-                {` Verification code has been send in your email.Please enter`}
-              </Text>
-            </View>
-
-            <Input
-              placeholder="Enter Otp"
-              keyboardType="numeric"
-              textStyle={{
-                color: theme['text-ash-color-1'],
-              }}
-              style={{
-                marginVertical: 20,
-
-                backgroundColor: theme['backgorund-white-color'],
-                color: theme['text-ash-color-1'],
-              }}
-              onChangeText={text => {
-                setError(false);
-                setOtpState(text);
-              }}
-            />
-            {error && (
-              <Text
-                category="p2"
-                style={{color: theme['text-red-color'], marginBottom: 5}}>
-                Please enter valid otp
-              </Text>
-            )}
-            <Button
-              onPress={() => {
-                if (otp?.length != 0) {
-                  setModalState(false);
-                  onLogin();
-                } else {
-                  setError(true);
-                }
-              }}>
-              Submit
-            </Button>
-          </Card>
-        </Modal>
-      </Layout>
-    );
-  };
+  const nextScreen = React.useCallback((screenName: string) => {
+    const resetAction = CommonActions.reset({
+      index: 1,
+      routes: [
+        {
+          name: screenName,
+        },
+      ],
+    });
+    dispatch(resetAction);
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {modalVisible && <EmailAlert />}
       <Formik
-        initialValues={{fullname: '', email: '', password: '', phonenumber: ''}}
+        initialValues={{fullname: ''}}
         validationSchema={SignupSchema}
         onSubmit={values => {
-          setModalState(true);
+          nextScreen('Main');
         }}>
         {({
           handleChange,
@@ -158,7 +109,7 @@ const Regsiter: React.FC = () => {
                 ]}></View>
               <View
                 style={{
-                  marginTop: 150,
+                  marginTop: 200,
                   justifyContent: 'center',
                   paddingHorizontal: 20,
                   paddingBottom: 50,
@@ -170,7 +121,7 @@ const Regsiter: React.FC = () => {
                 <View>
                   <AuthInput
                     value={values.fullname}
-                    placeholder="Enter full name..."
+                    placeholder="Enter user name..."
                     onChange={handleChange('fullname')}
                   />
                   {errors.fullname && touched.fullname ? (
@@ -178,45 +129,12 @@ const Regsiter: React.FC = () => {
                       {errors.fullname}
                     </Text>
                   ) : null}
-                  <AuthInput
-                    value={values.email}
-                    placeholder="Enter email..."
-                    onChange={handleChange('email')}
-                  />
-                  {errors.email && touched.email ? (
-                    <Text category="h6" style={{color: 'red', padding: 2}}>
-                      {errors.email}
-                    </Text>
-                  ) : null}
-                  <AuthInput
-                    value={values.phonenumber}
-                    type="numeric"
-                    placeholder="Enter phone number..."
-                    onChange={handleChange('phonenumber')}
-                  />
-                  {errors.phonenumber && touched.phonenumber ? (
-                    <Text category="h6" style={{color: 'red', padding: 10}}>
-                      {errors.phonenumber}
-                    </Text>
-                  ) : null}
-                  <AuthInput
-                    value={values.password}
-                    placeholder="Enter password..."
-                    onChange={handleChange('password')}
-                    passwordIcon={true}
-                  />
-                  {errors.password && touched.password ? (
-                    <Text category="h6" style={{color: 'red', padding: 2}}>
-                      {errors.password}
-                    </Text>
-                  ) : null}
                   <View
                     style={{
                       flexGrow: 1,
                       flexDirection: 'row',
-                      justifyContent: 'flex-end',
                       marginTop: 50,
-                      alignItems: 'center',
+                      alignSelf: 'center',
                     }}>
                     <AuthButton
                       title={'Register'}
@@ -229,44 +147,7 @@ const Regsiter: React.FC = () => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginTop: 50,
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <TouchableThrottle onPress={() => null}>
-                      <Avatar
-                        source={require('../../assets/icon/google.png')}
-                        style={{
-                          marginRight: 20,
-                          backgroundColor: theme['backgorund-white-color'],
-                        }}
-                        shape="square"
-                      />
-                    </TouchableThrottle>
-                    <TouchableThrottle onPress={() => null}>
-                      <Avatar
-                        source={require('../../assets/icon/fb.png')}
-                        style={{
-                          marginRight: 20,
-                          backgroundColor: theme['backgorund-white-color'],
-                        }}
-                        size="medium"
-                        shape="square"
-                      />
-                    </TouchableThrottle>
-                    <TouchableThrottle onPress={() => null}>
-                      <Avatar
-                        source={require('../../assets/icon/apple.png')}
-                        style={{
-                          marginRight: 20,
-                          backgroundColor: theme['backgorund-white-color'],
-                        }}
-                        shape="square"
-                      />
-                    </TouchableThrottle>
-                  </View>
-                  <TouchableThrottle onPress={handleSubmit}>
-                    <Text category="h6">Already a {'\n'} Member? Login</Text>
-                  </TouchableThrottle>
-                </View>
+                  }}></View>
               </View>
             </View>
           </ScrollView>

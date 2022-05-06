@@ -4,7 +4,14 @@ import React, {memo} from 'react';
 import {View, StyleSheet, SafeAreaView, ScrollView, Button} from 'react-native';
 import useLayout from '../../hooks/useLayout';
 import Text from '../../components/Text';
-import {Avatar, useTheme} from '@ui-kitten/components';
+import {
+  Avatar,
+  Card,
+  Input,
+  Layout,
+  Modal,
+  useTheme,
+} from '@ui-kitten/components';
 import {AuthButton, AuthInput} from '../../components/authInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -16,30 +23,20 @@ import {
 } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AuthStackParamList} from '../../navigation/types';
+import {AuthStackParamList, RootStackParamList} from '../../navigation/types';
 
 const Login = memo(() => {
   const {width, height} = useLayout();
   const theme = useTheme();
+  const [modalVisible, setModalState] = React.useState(false);
   const {navigate, dispatch} =
-    useNavigation<NavigationProp<AuthStackParamList>>();
-  const {isInitialized, isSignedIn, isIntro, signIn, signOut} = useAuth();
-  const [PasswordEnabled, setPasswordEnabled] = React.useState(true);
+    useNavigation<NavigationProp<RootStackParamList>>();
+  const {signIn} = useAuth();
 
   const SignupSchema = Yup.object().shape({
-    otp: Yup.number().when('passwordEnabled', {
-      is: false,
-      then: Yup.number().required(),
-    }),
-
-    passwordEnabled: Yup.boolean(),
     phonenumber: Yup.number()
       .typeError("doesn't look like a phone number")
       .required('phone number must be a number.'),
-    password: Yup.string().when('passwordEnabled', {
-      is: true,
-      then: Yup.string().required('Otp should be a number.'),
-    }),
   });
 
   const nextScreen = React.useCallback((screenName: string) => {
@@ -54,24 +51,75 @@ const Login = memo(() => {
     dispatch(resetAction);
   }, []);
 
+  const EmailAlert = () => {
+    const [error, setError] = React.useState(false);
+    const [otp, setOtpState] = React.useState('');
+
+    return (
+      <Layout level="1">
+        <Modal visible={modalVisible}>
+          <Card
+            disabled={true}
+            style={{backgroundColor: theme['background-white-color']}}>
+            <View style={{flex: 1}}>
+              <Text
+                style={{textAlign: 'center', color: theme['text-ash-color-1']}}>
+                {` Verification code has been send in your email.Please enter`}
+              </Text>
+            </View>
+
+            <Input
+              placeholder="Enter Otp"
+              keyboardType="numeric"
+              textStyle={{
+                color: theme['text-ash-color-1'],
+              }}
+              style={{
+                marginVertical: 20,
+
+                backgroundColor: theme['backgorund-white-color'],
+                color: theme['text-ash-color-1'],
+              }}
+              onChangeText={text => {
+                setError(false);
+                setOtpState(text);
+              }}
+            />
+            {error && (
+              <Text
+                category="p2"
+                style={{color: theme['text-red-color'], marginBottom: 5}}>
+                Please enter valid otp
+              </Text>
+            )}
+            <Button
+              title="Submit"
+              onPress={() => {
+                if (otp?.length != 0) {
+                  setModalState(false);
+                  navigate('Auth', {
+                    screen: 'SignUp',
+                  });
+                } else {
+                  setError(true);
+                }
+              }}></Button>
+          </Card>
+        </Modal>
+      </Layout>
+    );
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
+      {modalVisible && <EmailAlert />}
       <Formik
         initialValues={{
           phonenumber: '',
-          password: '',
-          passwordEnabled: PasswordEnabled,
           otp: '',
         }}
         validationSchema={SignupSchema}
-        onSubmit={async values =>
-          AsyncStorage.setItem('email', values.phonenumber)
-            .then(res => {
-              signIn();
-              nextScreen('Main');
-            })
-            .catch(err => {})
-        }>
+        onSubmit={async values => setModalState(true)}>
         {({
           handleChange,
           handleBlur,
@@ -119,7 +167,7 @@ const Login = memo(() => {
                 ]}></View>
               <View
                 style={{
-                  marginTop: 70,
+                  marginTop: 100,
                   justifyContent: 'center',
                   paddingHorizontal: 20,
                 }}>
@@ -139,63 +187,12 @@ const Login = memo(() => {
                       {errors.phonenumber}
                     </Text>
                   ) : null}
-
-                  {PasswordEnabled && (
-                    <View>
-                      <AuthInput
-                        value={values.password}
-                        placeholder=" Enter password ..."
-                        onChange={handleChange('password')}
-                        passwordIcon={true}
-                      />
-                      {errors.password && touched.password ? (
-                        <Text category="h6" style={{color: 'red', padding: 10}}>
-                          {errors.password}
-                        </Text>
-                      ) : null}
-                    </View>
-                  )}
-                  {!PasswordEnabled && (
-                    <View>
-                      <AuthInput
-                        value={values.otp}
-                        type="numeric"
-                        placeholder=" Enter otp ..."
-                        onChange={handleChange('otp')}
-                      />
-                      {errors.otp && touched.otp ? (
-                        <Text category="h6" style={{color: 'red', padding: 10}}>
-                          {errors.otp}
-                        </Text>
-                      ) : null}
-                    </View>
-                  )}
-                  <AuthButton
-                    title={`Login using ${
-                      PasswordEnabled ? 'Otp' : 'Password'
-                    } `}
-                    style={{
-                      marginHorizontal: 50,
-                      alignSelf: 'center',
-                      marginTop: 20,
-                    }}
-                    onPress={() => {
-                      values.passwordEnabled = !PasswordEnabled;
-                      setPasswordEnabled(!PasswordEnabled);
-                    }}
-                  />
-
                   <View
                     style={{
                       flexGrow: 1,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
                       marginTop: 50,
                       alignItems: 'center',
                     }}>
-                    <Text category="h6" bold center>
-                      Forgot password?
-                    </Text>
                     <AuthButton
                       title="Login"
                       onPress={handleSubmit}></AuthButton>
@@ -206,7 +203,7 @@ const Login = memo(() => {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginTop: 50,
+                    marginTop: 100,
                   }}>
                   <View style={{flexDirection: 'row'}}>
                     <TouchableThrottle onPress={() => null}>
@@ -241,9 +238,6 @@ const Login = memo(() => {
                       />
                     </TouchableThrottle>
                   </View>
-                  <TouchableThrottle onPress={() => navigate('SignUp')}>
-                    <Text category="h6">New Here ?{'\n'}Register</Text>
-                  </TouchableThrottle>
                 </View>
               </View>
             </View>

@@ -47,13 +47,14 @@ const TransactionListComponent: React.FC = () => {
 
           <FlatList
             data={data}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{marginTop: 20}}
             renderItem={({item, index}) => (
               <TransactionListItemComponent item={item} index={index} />
             )}></FlatList>
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView> 
   );
 };
 
